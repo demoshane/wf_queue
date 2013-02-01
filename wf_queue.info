@@ -10,6 +10,7 @@ dependencies[] = date
 dependencies[] = features
 dependencies[] = number
 dependencies[] = strongarm
+dependencies[] = text
 dependencies[] = views
 dependencies[] = webform
 features[ctools][] = strongarm:strongarm:1
