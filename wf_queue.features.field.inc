@@ -269,7 +269,7 @@ function wf_queue_field_default_fields() {
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'title_wf_queuefield',
+      'field_name' => 'field_wf_queue_title',
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -317,7 +317,7 @@ function wf_queue_field_default_fields() {
         ),
       ),
       'entity_type' => 'node',
-      'field_name' => 'title_wf_queue_field',
+      'field_name' => 'field_wf_queue_title',
       'label' => 'Title',
       'required' => TRUE,
       'settings' => array(
