@@ -140,19 +140,19 @@ function wf_queue_views_default_views() {
   );
   $handler->display->display_options['fields']['field_end_date']['field_api_classes'] = TRUE;
   /* Field: Content: Participants */
-  $handler->display->display_options['fields']['field_participants']['id'] = 'field_participants';
-  $handler->display->display_options['fields']['field_participants']['table'] = 'field_data_field_participants';
-  $handler->display->display_options['fields']['field_participants']['field'] = 'field_participants';
-  $handler->display->display_options['fields']['field_participants']['label'] = 'Max. participants';
-  $handler->display->display_options['fields']['field_participants']['element_type'] = '0';
-  $handler->display->display_options['fields']['field_participants']['element_wrapper_type'] = '0';
-  $handler->display->display_options['fields']['field_participants']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_participants']['type'] = 'number_unformatted';
-  $handler->display->display_options['fields']['field_participants']['settings'] = array(
+  $handler->display->display_options['fields']['field_wf_queue_participants']['id'] = 'field_wf_queue_participants';
+  $handler->display->display_options['fields']['field_wf_queue_participants']['table'] = 'field_data_field_wf_queue_participants';
+  $handler->display->display_options['fields']['field_wf_queue_participants']['field'] = 'field_wf_queue_participants';
+  $handler->display->display_options['fields']['field_wf_queue_participants']['label'] = 'Max. participants';
+  $handler->display->display_options['fields']['field_wf_queue_participants']['element_type'] = '0';
+  $handler->display->display_options['fields']['field_wf_queue_participants']['element_wrapper_type'] = '0';
+  $handler->display->display_options['fields']['field_wf_queue_participants']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_wf_queue_participants']['type'] = 'number_unformatted';
+  $handler->display->display_options['fields']['field_wf_queue_participants']['settings'] = array(
     'thousand_separator' => '',
     'prefix_suffix' => 0,
   );
-  $handler->display->display_options['fields']['field_participants']['field_api_classes'] = TRUE;
+  $handler->display->display_options['fields']['field_wf_queue_participants']['field_api_classes'] = TRUE;
   /* Field: Content: Link */
   $handler->display->display_options['fields']['view_node']['id'] = 'view_node';
   $handler->display->display_options['fields']['view_node']['table'] = 'views_entity_node';
@@ -270,19 +270,19 @@ function wf_queue_views_default_views() {
   );
   $handler->display->display_options['fields']['field_end_date']['field_api_classes'] = TRUE;
   /* Field: Content: Participants */
-  $handler->display->display_options['fields']['field_participants']['id'] = 'field_participants';
-  $handler->display->display_options['fields']['field_participants']['table'] = 'field_data_field_participants';
-  $handler->display->display_options['fields']['field_participants']['field'] = 'field_participants';
-  $handler->display->display_options['fields']['field_participants']['label'] = 'Max. participants';
-  $handler->display->display_options['fields']['field_participants']['element_type'] = '0';
-  $handler->display->display_options['fields']['field_participants']['element_wrapper_type'] = '0';
-  $handler->display->display_options['fields']['field_participants']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_participants']['type'] = 'number_unformatted';
-  $handler->display->display_options['fields']['field_participants']['settings'] = array(
+  $handler->display->display_options['fields']['field_wf_queue_participants']['id'] = 'field_wf_queue_participants';
+  $handler->display->display_options['fields']['field_wf_queue_participants']['table'] = 'field_data_field_wf_queue_participants';
+  $handler->display->display_options['fields']['field_wf_queue_participants']['field'] = 'field_wf_queue_participants';
+  $handler->display->display_options['fields']['field_wf_queue_participants']['label'] = 'Max. participants';
+  $handler->display->display_options['fields']['field_wf_queue_participants']['element_type'] = '0';
+  $handler->display->display_options['fields']['field_wf_queue_participants']['element_wrapper_type'] = '0';
+  $handler->display->display_options['fields']['field_wf_queue_participants']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_wf_queue_participants']['type'] = 'number_unformatted';
+  $handler->display->display_options['fields']['field_wf_queue_participants']['settings'] = array(
     'thousand_separator' => '',
     'prefix_suffix' => 0,
   );
-  $handler->display->display_options['fields']['field_participants']['field_api_classes'] = TRUE;
+  $handler->display->display_options['fields']['field_wf_queue_participants']['field_api_classes'] = TRUE;
   /* Field: Content: Link */
   $handler->display->display_options['fields']['view_node']['id'] = 'view_node';
   $handler->display->display_options['fields']['view_node']['table'] = 'views_entity_node';

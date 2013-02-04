@@ -58,8 +58,8 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
     $form['#node']->content['field_wf_queue_description'][0]['#markup'] = $manageLink . $form['#node']->content['field_wf_queue_description'][0]['#markup'];
     // INFORMATION SETUP
     // Get Participant limit
-    if (isset($form['#node']->field_participants['und'][0]['value'])) {
-      $participants = $form['#node']->field_participants['und'][0]['value'];
+    if (isset($form['#node']->field_wf_queue_participants['und'][0]['value'])) {
+      $participants = $form['#node']->field_wf_queue_participants['und'][0]['value'];
     }
 
     // Check webform module exists and count possible queue submissions on this form.
@@ -149,8 +149,8 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
 	  }
 
 	  // Move information to markup
-    if (isset($form['#node']->field_participants['und'][0]['value'])) {
-      $form['#node']->content['field_participants'][0]['#markup'] = $currentParticipants;
+    if (isset($form['#node']->field_wf_queue_participants['und'][0]['value'])) {
+      $form['#node']->content['field_wf_queue_participants'][0]['#markup'] = $currentParticipants;
     }
 	  // VALIDATION
 	  // Custom validation to prevent overflowing
@@ -172,8 +172,8 @@ function wf_queue_validate($form) {
   if (!empty($form['#node']->nid)) {
     $nid = $form['#node']->nid;
   }
-  if (isset($form['#node']->field_participants['und'][0]['value'])) {
-    $participants = $form['#node']->field_participants['und'][0]['value'];
+  if (isset($form['#node']->field_wf_queue_participants['und'][0]['value'])) {
+    $participants = $form['#node']->field_wf_queue_participants['und'][0]['value'];
   }
 
   // Count participants at the moment submit is launched.
@@ -239,7 +239,7 @@ function wf_queue_webform_submission_delete($node, $submission) {
   $queue = db_query("SELECT COUNT(nid) as count FROM {webform_submitted_data} WHERE nid = :nid AND data = :data", array(":nid" => $node->nid, ":data" => "queue"))->fetchAll();
   $queue = $queue[0]->count;
   // Get participation limit
-  $participants = $node->field_participants['und'][0]['value'];
+  $participants = $node->field_wf_queue_participants['und'][0]['value'];
   // Get sid of the first in the queue
   // If there is someone in the queue and there is free space, let event moderator know about it.
   $queueFirstSid = db_query("SELECT sid FROM {webform_submitted_data} WHERE nid = :nid AND data = :data", array(":nid" => $node->nid, ":data" => "queue"))->fetchAll();
