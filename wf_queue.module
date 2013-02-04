@@ -154,7 +154,6 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
     }
 	  // VALIDATION
 	  // Custom validation to prevent overflowing
-	  dsm($form);
 	  array_unshift($form['#validate'], 'wf_queue_validate');
   }
   // FORM PROTECTION
