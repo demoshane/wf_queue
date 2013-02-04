@@ -18,12 +18,13 @@ function wf_queue_permission() {
   );
 }
 
-// TODO: DO COMPONENT CHECKING ISSETS!
+// TODO: DO COMPONENT CHECKING ISSETS, EVENT_ACTION OPTIONS CHECK.
 
 /** 
   * Implements hook_form_alter().
   */
 function wf_queue_form_alter(&$form, &$form_state, $form_id) {
+  // CHECKS AND MISCALLENEOUS
   // This is to get rid of notices from undefined indexes
   if (!isset($form['#node'])) {
     return;
@@ -39,12 +40,12 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
   {
     $nid ="";
   }
-  
+
   // Return current path
   $path = current_path();
   // Assign check for node view
   $check = "node/" . $nid;
-  
+
   // Check we have node of type event and we are on node view. We don't want form handling to trigger on edit or add pages.
   if ($nodetype == "event" && $path == $check) {
   // if ($nodetype == "event" && $path == $check && !user_access('view full webforms')) {
@@ -53,23 +54,24 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
     if (empty($form['#node']->content['field_wf_queue_description'][0]['#markup'])) {
       $form['#node']->content['field_wf_queue_description'][0]['#markup'] = "";
     }
-    $form['#node']->content['field_wf_queue_description'][0]['#markup'] = $manageLink . $form['#node']->content['field_wf_queue_description'][0]['#markup'];
 
+    $form['#node']->content['field_wf_queue_description'][0]['#markup'] = $manageLink . $form['#node']->content['field_wf_queue_description'][0]['#markup'];
+    // INFORMATION SETUP
     // Get Participant limit
     if (isset($form['#node']->field_participants['und'][0]['value'])) {
       $participants = $form['#node']->field_participants['und'][0]['value'];
     }
-    
-    // Check webform module exists and count queue submissions on this form.
+
+    // Check webform module exists and count possible queue submissions on this form.
     if (module_exists('webform') && isset($form['submitted']['event_action'])) {
       $queue = 0;
       $queue = db_query("SELECT COUNT(nid) as count FROM {webform_submitted_data} WHERE nid = :nid AND data = :data", array(":nid" => $nid, ":data" => "queue"))->fetchAll();
-      $queue = $queue[0]->count;    
+      $queue = $queue[0]->count;
     }
     else {
       $queue = 0;
     }
-    
+
     // Check webform module exists and count signup submissions on this form. Check also to see if event_action has been deleted. Then just count submissions.
     if (module_exists('webform') && isset($form['submitted']['event_action'])) {
       $dbresult = db_query("SELECT COUNT(nid) as count FROM {webform_submitted_data} WHERE nid = :nid AND data = :data", array(":nid" => $nid, ":data" => "signup"))->fetchAll();
@@ -77,31 +79,35 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
     }
     elseif(module_exists('webform')) {
       $dbresult = db_query("SELECT COUNT(nid) as count FROM {webform_submitted_data} WHERE nid = :nid", array(":nid" => $nid))->fetchAll();
-      $dbresult = $dbresult[0]->count;      
+      $dbresult = $dbresult[0]->count;
     }
 
+    // PARTICIPANT LIMIT FUNCTIONALITY
     // Limit is full
     if ($dbresult >= $participants && isset($participants) && $participants > 0) {
+      // Append this to normal page title
       $fullTitle = $form['#node']->title . " - Participation limit reached";
-      
+
       // Participation limit is full, modify page title and unset the form until there is more space. User can free up space to course by deleting submissions if he wants to.
       drupal_set_title(t($fullTitle));
-      
+
       // Notify user that submission limit has been reached. Clear possible previous messages.
       unset($form['submitted']['event_action']['#options']['signup']);
       unset($_SESSION['messages']);
       drupal_set_message(t('This event is currently full. However you can queue for the event.'), 'warning');
     }
-	  // Don't allow signing up if there is people in queue even if there is space on course, in other words - maintainer has not updated someone from queue to course
+	  // Don't allow signing up if there is people in queue even if there is space on course, in other words - maintainer has not updated someone from queue to course or is currently doing so. This protects course from signups while maintainer is working on with signups.
 	  elseif ($dbresult < $participants && isset($participants) && $participants > 0 && $queue > 0) {
       unset($form['submitted']['event_action']['#options']['signup']);
 	  }
     else
+    // Unset queue so it's not an option when there is space on course.
     {
       unset($form['submitted']['event_action']['#options']['queue']);
     }
 
-    // Let's check if ending date is passed and disable submission
+    // END DATE FUNCTIONALITY
+    // Let's check if ending date has passed and disable submission
     // Convert ending date to epoch time stamp for comparison. Field must have no timezone for this to work
     if (isset($form['#node']->field_end_date['und'][0]['value'])) {
       $endDate = strtotime($form['#node']->field_end_date['und'][0]['value']);
@@ -123,7 +129,7 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
       // Unset form components
       unset($form['actions']['submit']);
       unset($form['submitted']);
-      
+
       // Due date has passed, modify page title
       $dueTitle = $form['#node']->title . " - due date has passed";
       drupal_set_title(t($dueTitle));
@@ -132,30 +138,33 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
       unset($_SESSION['messages']);
       drupal_set_message(t('Ending date for event subscriptions has passed. Signup is disabled.'), 'warning');
 	  }
+
+	  // MARKUP FOR THE PAGE
     // How many are currently participating for markup
 	  $currentParticipants = t("Currently participating %dbresult / %participants. ", array('%dbresult' => $dbresult, '%participants' => $participants));
-	 
+
 	  // If there is queue, tell how much
 	  if ($queue > 0) {
   	  $currentParticipants .= t("There is %queue person(s) in the queue.", array('%queue' => $queue));
 	  }
-	  
+
 	  // Move information to markup
     if (isset($form['#node']->field_participants['und'][0]['value'])) {
       $form['#node']->content['field_participants'][0]['#markup'] = $currentParticipants;
     }
-	  
+	  // VALIDATION
 	  // Custom validation to prevent overflowing
+	  dsm($form);
 	  array_unshift($form['#validate'], 'wf_queue_validate');
   }
-  
+  // FORM PROTECTION
   // Let's give a event_action slight protection
   if ($form_id = "webform-components-form") {
     $form['components']['99']['mandatory']['#access'] = FALSE;
   }
 }
 
-/** 
+/**
   * Implements hook_validate().
   */
 function wf_queue_validate($form) {
@@ -166,7 +175,7 @@ function wf_queue_validate($form) {
   if (isset($form['#node']->field_participants['und'][0]['value'])) {
     $participants = $form['#node']->field_participants['und'][0]['value'];
   }
-  
+
   // Count participants at the moment submit is launched.
   $dbresult = db_query("SELECT COUNT(nid) as count FROM {webform_submitted_data} WHERE nid = :nid AND data = :data", array(":nid" => $nid, ":data" => "signup"))->fetchAll();
 
@@ -188,14 +197,14 @@ function wf_queue_node_insert($node) {
   if($node->type == "event") {
     // Include webform component functions. If we don't do this, we can't use webform functions needed to create element.
     module_load_include('inc', 'webform', 'includes/webform.components');
-    
-    // Check if field exists by doing database query and checking for cid = 99 on this node. TODO: This check is maybe too failsafe.
+
+    // Check if field exists by doing database query and checking for cid = 99 on this node. TODO: This check is maybe too failsafe. Cid can propably be set to 1
     $dbresultwf = db_query("SELECT * FROM {webform_component} WHERE nid = :nid AND cid = :cid", array(":nid" => $node->nid, ":cid" => 99))->fetchField();
-    
+
     // It doesn't exists, create it.
     if(!$dbresultwf) {
       $component = array(
-        // We set cid to 99 so it wont interfere with other components (This might need to be increased further for very complex forms. Does webform check for existing cid? If so we are fine.
+        // We set cid to 99 so it wont interfere with other components (This might need to be increased further for very complex forms. Does webform check for existing cid? If so we are fine. Check previous TODO.
         'cid' => 99,
         'pid' => 0,
         'nid' => (int)$node->nid,
@@ -235,13 +244,14 @@ function wf_queue_webform_submission_delete($node, $submission) {
   // If there is someone in the queue and there is free space, let event moderator know about it.
   $queueFirstSid = db_query("SELECT sid FROM {webform_submitted_data} WHERE nid = :nid AND data = :data", array(":nid" => $node->nid, ":data" => "queue"))->fetchAll();
   $firstQueued = array();
+  // There is someone in queue
   if (!empty($queueFirstSid)) {
     $firstQueued = min($queueFirstSid);
     $firstQueued = $firstQueued->sid;
   }
+  // Notify moderator and provide link to first in queue aka the one with lowest sid and status queue.
   if ($dbresult <= $participants && !empty($firstQueued)) {
     unset($_SESSION['messages']);
     drupal_set_message('You have a person waiting in queue. Update him/her to signed up status <a href="submission/'.$firstQueued.'/edit">here</a>');
   }
-
 }
