@@ -114,15 +114,15 @@ function wf_queue_views_default_views() {
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   /* Field: Content: Description */
-  $handler->display->display_options['fields']['field_description']['id'] = 'field_description';
-  $handler->display->display_options['fields']['field_description']['table'] = 'field_data_field_description';
-  $handler->display->display_options['fields']['field_description']['field'] = 'field_description';
-  $handler->display->display_options['fields']['field_description']['label'] = 'Short description';
-  $handler->display->display_options['fields']['field_description']['element_type'] = '0';
-  $handler->display->display_options['fields']['field_description']['element_wrapper_type'] = '0';
-  $handler->display->display_options['fields']['field_description']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_description']['type'] = 'text_plain';
-  $handler->display->display_options['fields']['field_description']['field_api_classes'] = TRUE;
+  $handler->display->display_options['fields']['field_wf_queue_description']['id'] = 'field_wf_queue_description';
+  $handler->display->display_options['fields']['field_wf_queue_description']['table'] = 'field_data_field_wf_queue_description';
+  $handler->display->display_options['fields']['field_wf_queue_description']['field'] = 'field_wf_queue_description';
+  $handler->display->display_options['fields']['field_wf_queue_description']['label'] = 'Short description';
+  $handler->display->display_options['fields']['field_wf_queue_description']['element_type'] = '0';
+  $handler->display->display_options['fields']['field_wf_queue_description']['element_wrapper_type'] = '0';
+  $handler->display->display_options['fields']['field_wf_queue_description']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_wf_queue_description']['type'] = 'text_plain';
+  $handler->display->display_options['fields']['field_wf_queue_description']['field_api_classes'] = TRUE;
   /* Field: Content: Due date */
   $handler->display->display_options['fields']['field_end_date']['id'] = 'field_end_date';
   $handler->display->display_options['fields']['field_end_date']['table'] = 'field_data_field_end_date';
@@ -244,15 +244,15 @@ function wf_queue_views_default_views() {
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   /* Field: Content: Description */
-  $handler->display->display_options['fields']['field_description']['id'] = 'field_description';
-  $handler->display->display_options['fields']['field_description']['table'] = 'field_data_field_description';
-  $handler->display->display_options['fields']['field_description']['field'] = 'field_description';
-  $handler->display->display_options['fields']['field_description']['label'] = 'Short description';
-  $handler->display->display_options['fields']['field_description']['element_type'] = '0';
-  $handler->display->display_options['fields']['field_description']['element_wrapper_type'] = '0';
-  $handler->display->display_options['fields']['field_description']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_description']['type'] = 'text_plain';
-  $handler->display->display_options['fields']['field_description']['field_api_classes'] = TRUE;
+  $handler->display->display_options['fields']['field_wf_queue_description']['id'] = 'field_wf_queue_description';
+  $handler->display->display_options['fields']['field_wf_queue_description']['table'] = 'field_data_field_wf_queue_description';
+  $handler->display->display_options['fields']['field_wf_queue_description']['field'] = 'field_wf_queue_description';
+  $handler->display->display_options['fields']['field_wf_queue_description']['label'] = 'Short description';
+  $handler->display->display_options['fields']['field_wf_queue_description']['element_type'] = '0';
+  $handler->display->display_options['fields']['field_wf_queue_description']['element_wrapper_type'] = '0';
+  $handler->display->display_options['fields']['field_wf_queue_description']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_wf_queue_description']['type'] = 'text_plain';
+  $handler->display->display_options['fields']['field_wf_queue_description']['field_api_classes'] = TRUE;
   /* Field: Content: Due date */
   $handler->display->display_options['fields']['field_end_date']['id'] = 'field_end_date';
   $handler->display->display_options['fields']['field_end_date']['table'] = 'field_data_field_end_date';

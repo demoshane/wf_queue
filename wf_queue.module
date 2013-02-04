@@ -50,10 +50,10 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
   // if ($nodetype == "event" && $path == $check && !user_access('view full webforms')) {
     // Add link to webform results table
     $manageLink = '<a href="/node/'.$nid.'/webform-results/table" style="float:right;">Manage your event</a>';
-    if (empty($form['#node']->content['field_description'][0]['#markup'])) {
-      $form['#node']->content['field_description'][0]['#markup'] = "";
+    if (empty($form['#node']->content['field_wf_queue_description'][0]['#markup'])) {
+      $form['#node']->content['field_wf_queue_description'][0]['#markup'] = "";
     }
-    $form['#node']->content['field_description'][0]['#markup'] = $manageLink . $form['#node']->content['field_description'][0]['#markup'];
+    $form['#node']->content['field_wf_queue_description'][0]['#markup'] = $manageLink . $form['#node']->content['field_wf_queue_description'][0]['#markup'];
 
     // Get Participant limit
     if (isset($form['#node']->field_participants['und'][0]['value'])) {

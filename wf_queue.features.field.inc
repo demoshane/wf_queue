@@ -10,14 +10,14 @@
 function wf_queue_field_default_fields() {
   $fields = array();
 
-  // Exported field: 'node-event-field_description'.
-  $fields['node-event-field_description'] = array(
+  // Exported field: 'node-event-field_wf_queue_description'.
+  $fields['node-event-field_wf_queue_description'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_description',
+      'field_name' => 'field_wf_queue_description',
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -69,7 +69,7 @@ function wf_queue_field_default_fields() {
       ),
       'entity_type' => 'node',
       'fences_wrapper' => 'div',
-      'field_name' => 'field_description',
+      'field_name' => 'field_wf_queue_description',
       'label' => 'Description',
       'required' => 0,
       'settings' => array(
