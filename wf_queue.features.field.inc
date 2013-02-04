@@ -10,14 +10,14 @@
 function wf_queue_field_default_fields() {
   $fields = array();
 
-  // Exported field: 'node-event-field_end_date'.
-  $fields['node-event-field_end_date'] = array(
+  // Exported field: 'node-event-field_wf_queue_end_date'.
+  $fields['node-event-field_wf_queue_end_date'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_end_date',
+      'field_name' => 'field_wf_queue_end_date',
       'foreign keys' => array(),
       'indexes' => array(),
       'locked' => '0',
@@ -80,7 +80,7 @@ function wf_queue_field_default_fields() {
       ),
       'entity_type' => 'node',
       'fences_wrapper' => 'div',
-      'field_name' => 'field_end_date',
+      'field_name' => 'field_wf_queue_end_date',
       'label' => 'Due date',
       'required' => 0,
       'settings' => array(

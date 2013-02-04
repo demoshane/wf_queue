@@ -109,8 +109,8 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
     // END DATE FUNCTIONALITY
     // Let's check if ending date has passed and disable submission
     // Convert ending date to epoch time stamp for comparison. Field must have no timezone for this to work
-    if (isset($form['#node']->field_end_date['und'][0]['value'])) {
-      $endDate = strtotime($form['#node']->field_end_date['und'][0]['value']);
+    if (isset($form['#node']->field_wf_queue_end_date['und'][0]['value'])) {
+      $endDate = strtotime($form['#node']->field_wf_queue_end_date['und'][0]['value']);
     }
     else
     {

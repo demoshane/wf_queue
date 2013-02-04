@@ -124,21 +124,21 @@ function wf_queue_views_default_views() {
   $handler->display->display_options['fields']['field_wf_queue_description']['type'] = 'text_plain';
   $handler->display->display_options['fields']['field_wf_queue_description']['field_api_classes'] = TRUE;
   /* Field: Content: Due date */
-  $handler->display->display_options['fields']['field_end_date']['id'] = 'field_end_date';
-  $handler->display->display_options['fields']['field_end_date']['table'] = 'field_data_field_end_date';
-  $handler->display->display_options['fields']['field_end_date']['field'] = 'field_end_date';
-  $handler->display->display_options['fields']['field_end_date']['label'] = 'Signup ends';
-  $handler->display->display_options['fields']['field_end_date']['element_type'] = '0';
-  $handler->display->display_options['fields']['field_end_date']['element_wrapper_type'] = '0';
-  $handler->display->display_options['fields']['field_end_date']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_end_date']['settings'] = array(
+  $handler->display->display_options['fields']['field_wf_queue_end_date']['id'] = 'field_wf_queue_end_date';
+  $handler->display->display_options['fields']['field_wf_queue_end_date']['table'] = 'field_data_field_wf_queue_end_date';
+  $handler->display->display_options['fields']['field_wf_queue_end_date']['field'] = 'field_wf_queue_end_date';
+  $handler->display->display_options['fields']['field_wf_queue_end_date']['label'] = 'Signup ends';
+  $handler->display->display_options['fields']['field_wf_queue_end_date']['element_type'] = '0';
+  $handler->display->display_options['fields']['field_wf_queue_end_date']['element_wrapper_type'] = '0';
+  $handler->display->display_options['fields']['field_wf_queue_end_date']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_wf_queue_end_date']['settings'] = array(
     'format_type' => 'short',
     'fromto' => 'both',
     'multiple_number' => '',
     'multiple_from' => '',
     'multiple_to' => '',
   );
-  $handler->display->display_options['fields']['field_end_date']['field_api_classes'] = TRUE;
+  $handler->display->display_options['fields']['field_wf_queue_end_date']['field_api_classes'] = TRUE;
   /* Field: Content: Participants */
   $handler->display->display_options['fields']['field_wf_queue_participants']['id'] = 'field_wf_queue_participants';
   $handler->display->display_options['fields']['field_wf_queue_participants']['table'] = 'field_data_field_wf_queue_participants';
@@ -189,18 +189,18 @@ function wf_queue_views_default_views() {
   $handler->display->display_options['filters']['status']['value'] = 1;
   $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Filter criterion: Content: Due date (field_end_date) */
-  $handler->display->display_options['filters']['field_end_date_value']['id'] = 'field_end_date_value';
-  $handler->display->display_options['filters']['field_end_date_value']['table'] = 'field_data_field_end_date';
-  $handler->display->display_options['filters']['field_end_date_value']['field'] = 'field_end_date_value';
-  $handler->display->display_options['filters']['field_end_date_value']['operator'] = '>=';
-  $handler->display->display_options['filters']['field_end_date_value']['group'] = 1;
-  $handler->display->display_options['filters']['field_end_date_value']['expose']['operator_id'] = 'field_end_date_value_op';
-  $handler->display->display_options['filters']['field_end_date_value']['expose']['label'] = 'Due date (field_end_date)';
-  $handler->display->display_options['filters']['field_end_date_value']['expose']['operator'] = 'field_end_date_value_op';
-  $handler->display->display_options['filters']['field_end_date_value']['expose']['identifier'] = 'field_end_date_value';
-  $handler->display->display_options['filters']['field_end_date_value']['default_date'] = 'now -2 day';
-  $handler->display->display_options['filters']['field_end_date_value']['year_range'] = '-0:+3';
+  /* Filter criterion: Content: Due date (field_wf_queue_end_date) */
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['id'] = 'field_wf_queue_end_date_value';
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['table'] = 'field_data_field_wf_queue_end_date';
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['field'] = 'field_wf_queue_end_date_value';
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['operator'] = '>=';
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['group'] = 1;
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['expose']['operator_id'] = 'field_wf_queue_end_date_value_op';
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['expose']['label'] = 'Due date (field_wf_queue_end_date)';
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['expose']['operator'] = 'field_wf_queue_end_date_value_op';
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['expose']['identifier'] = 'field_wf_queue_end_date_value';
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['default_date'] = 'now -2 day';
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['year_range'] = '-0:+3';
   /* Filter criterion: Content: Title */
   $handler->display->display_options['filters']['title']['id'] = 'title';
   $handler->display->display_options['filters']['title']['table'] = 'node';
@@ -254,21 +254,21 @@ function wf_queue_views_default_views() {
   $handler->display->display_options['fields']['field_wf_queue_description']['type'] = 'text_plain';
   $handler->display->display_options['fields']['field_wf_queue_description']['field_api_classes'] = TRUE;
   /* Field: Content: Due date */
-  $handler->display->display_options['fields']['field_end_date']['id'] = 'field_end_date';
-  $handler->display->display_options['fields']['field_end_date']['table'] = 'field_data_field_end_date';
-  $handler->display->display_options['fields']['field_end_date']['field'] = 'field_end_date';
-  $handler->display->display_options['fields']['field_end_date']['label'] = 'Signup ends';
-  $handler->display->display_options['fields']['field_end_date']['element_type'] = '0';
-  $handler->display->display_options['fields']['field_end_date']['element_wrapper_type'] = '0';
-  $handler->display->display_options['fields']['field_end_date']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_end_date']['settings'] = array(
+  $handler->display->display_options['fields']['field_wf_queue_end_date']['id'] = 'field_wf_queue_end_date';
+  $handler->display->display_options['fields']['field_wf_queue_end_date']['table'] = 'field_data_field_wf_queue_end_date';
+  $handler->display->display_options['fields']['field_wf_queue_end_date']['field'] = 'field_wf_queue_end_date';
+  $handler->display->display_options['fields']['field_wf_queue_end_date']['label'] = 'Signup ends';
+  $handler->display->display_options['fields']['field_wf_queue_end_date']['element_type'] = '0';
+  $handler->display->display_options['fields']['field_wf_queue_end_date']['element_wrapper_type'] = '0';
+  $handler->display->display_options['fields']['field_wf_queue_end_date']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_wf_queue_end_date']['settings'] = array(
     'format_type' => 'short',
     'fromto' => 'both',
     'multiple_number' => '',
     'multiple_from' => '',
     'multiple_to' => '',
   );
-  $handler->display->display_options['fields']['field_end_date']['field_api_classes'] = TRUE;
+  $handler->display->display_options['fields']['field_wf_queue_end_date']['field_api_classes'] = TRUE;
   /* Field: Content: Participants */
   $handler->display->display_options['fields']['field_wf_queue_participants']['id'] = 'field_wf_queue_participants';
   $handler->display->display_options['fields']['field_wf_queue_participants']['table'] = 'field_data_field_wf_queue_participants';
@@ -308,18 +308,18 @@ function wf_queue_views_default_views() {
   $handler->display->display_options['filters']['status']['value'] = 1;
   $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Filter criterion: Content: Due date (field_end_date) */
-  $handler->display->display_options['filters']['field_end_date_value']['id'] = 'field_end_date_value';
-  $handler->display->display_options['filters']['field_end_date_value']['table'] = 'field_data_field_end_date';
-  $handler->display->display_options['filters']['field_end_date_value']['field'] = 'field_end_date_value';
-  $handler->display->display_options['filters']['field_end_date_value']['operator'] = '>=';
-  $handler->display->display_options['filters']['field_end_date_value']['group'] = 1;
-  $handler->display->display_options['filters']['field_end_date_value']['expose']['operator_id'] = 'field_end_date_value_op';
-  $handler->display->display_options['filters']['field_end_date_value']['expose']['label'] = 'Due date (field_end_date)';
-  $handler->display->display_options['filters']['field_end_date_value']['expose']['operator'] = 'field_end_date_value_op';
-  $handler->display->display_options['filters']['field_end_date_value']['expose']['identifier'] = 'field_end_date_value';
-  $handler->display->display_options['filters']['field_end_date_value']['default_date'] = 'now -2 day';
-  $handler->display->display_options['filters']['field_end_date_value']['year_range'] = '-0:+3';
+  /* Filter criterion: Content: Due date (field_wf_queue_end_date) */
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['id'] = 'field_wf_queue_end_date_value';
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['table'] = 'field_data_field_wf_queue_end_date';
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['field'] = 'field_wf_queue_end_date_value';
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['operator'] = '>=';
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['group'] = 1;
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['expose']['operator_id'] = 'field_wf_queue_end_date_value_op';
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['expose']['label'] = 'Due date (field_wf_queue_end_date)';
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['expose']['operator'] = 'field_wf_queue_end_date_value_op';
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['expose']['identifier'] = 'field_wf_queue_end_date_value';
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['default_date'] = 'now -2 day';
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['year_range'] = '-0:+3';
   $handler->display->display_options['path'] = 'events';
   $handler->display->display_options['menu']['type'] = 'normal';
   $handler->display->display_options['menu']['title'] = 'Events';
@@ -441,18 +441,18 @@ function wf_queue_views_default_views() {
   $handler->display->display_options['filters']['status']['value'] = 1;
   $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Filter criterion: Content: Due date (field_end_date) */
-  $handler->display->display_options['filters']['field_end_date_value']['id'] = 'field_end_date_value';
-  $handler->display->display_options['filters']['field_end_date_value']['table'] = 'field_data_field_end_date';
-  $handler->display->display_options['filters']['field_end_date_value']['field'] = 'field_end_date_value';
-  $handler->display->display_options['filters']['field_end_date_value']['operator'] = '>=';
-  $handler->display->display_options['filters']['field_end_date_value']['group'] = 1;
-  $handler->display->display_options['filters']['field_end_date_value']['expose']['operator_id'] = 'field_end_date_value_op';
-  $handler->display->display_options['filters']['field_end_date_value']['expose']['label'] = 'Due date (field_end_date)';
-  $handler->display->display_options['filters']['field_end_date_value']['expose']['operator'] = 'field_end_date_value_op';
-  $handler->display->display_options['filters']['field_end_date_value']['expose']['identifier'] = 'field_end_date_value';
-  $handler->display->display_options['filters']['field_end_date_value']['default_date'] = 'now -2 day';
-  $handler->display->display_options['filters']['field_end_date_value']['year_range'] = '-0:+3';
+  /* Filter criterion: Content: Due date (field_wf_queue_end_date) */
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['id'] = 'field_wf_queue_end_date_value';
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['table'] = 'field_data_field_wf_queue_end_date';
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['field'] = 'field_wf_queue_end_date_value';
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['operator'] = '>=';
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['group'] = 1;
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['expose']['operator_id'] = 'field_wf_queue_end_date_value_op';
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['expose']['label'] = 'Due date (field_wf_queue_end_date)';
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['expose']['operator'] = 'field_wf_queue_end_date_value_op';
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['expose']['identifier'] = 'field_wf_queue_end_date_value';
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['default_date'] = 'now -2 day';
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['year_range'] = '-0:+3';
   $handler->display->display_options['path'] = 'node/%/manage';
   $handler->display->display_options['menu']['type'] = 'tab';
   $handler->display->display_options['menu']['title'] = 'Manage';
@@ -523,18 +523,18 @@ function wf_queue_views_default_views() {
   $handler->display->display_options['filters']['status']['value'] = 1;
   $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Filter criterion: Content: Due date (field_end_date) */
-  $handler->display->display_options['filters']['field_end_date_value']['id'] = 'field_end_date_value';
-  $handler->display->display_options['filters']['field_end_date_value']['table'] = 'field_data_field_end_date';
-  $handler->display->display_options['filters']['field_end_date_value']['field'] = 'field_end_date_value';
-  $handler->display->display_options['filters']['field_end_date_value']['operator'] = '>=';
-  $handler->display->display_options['filters']['field_end_date_value']['group'] = 1;
-  $handler->display->display_options['filters']['field_end_date_value']['expose']['operator_id'] = 'field_end_date_value_op';
-  $handler->display->display_options['filters']['field_end_date_value']['expose']['label'] = 'Due date (field_end_date)';
-  $handler->display->display_options['filters']['field_end_date_value']['expose']['operator'] = 'field_end_date_value_op';
-  $handler->display->display_options['filters']['field_end_date_value']['expose']['identifier'] = 'field_end_date_value';
-  $handler->display->display_options['filters']['field_end_date_value']['default_date'] = 'now -2 day';
-  $handler->display->display_options['filters']['field_end_date_value']['year_range'] = '-0:+3';
+  /* Filter criterion: Content: Due date (field_wf_queue_end_date) */
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['id'] = 'field_wf_queue_end_date_value';
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['table'] = 'field_data_field_wf_queue_end_date';
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['field'] = 'field_wf_queue_end_date_value';
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['operator'] = '>=';
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['group'] = 1;
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['expose']['operator_id'] = 'field_wf_queue_end_date_value_op';
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['expose']['label'] = 'Due date (field_wf_queue_end_date)';
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['expose']['operator'] = 'field_wf_queue_end_date_value_op';
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['expose']['identifier'] = 'field_wf_queue_end_date_value';
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['default_date'] = 'now -2 day';
+  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['year_range'] = '-0:+3';
   /* Filter criterion: Content: Title */
   $handler->display->display_options['filters']['title']['id'] = 'title';
   $handler->display->display_options['filters']['title']['table'] = 'node';
@@ -575,7 +575,7 @@ function wf_queue_views_default_views() {
     t('Signup'),
     t('Name'),
     t('All'),
-    t('Due date (field_end_date)'),
+    t('Due date (field_wf_queue_end_date)'),
     t('Title'),
     t('Event listing'),
     t('Administrative tools'),
