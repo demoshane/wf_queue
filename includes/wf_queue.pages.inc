@@ -83,9 +83,26 @@ function wf_queue_form($form, $form_state, $node) {
   }
   // Notify moderator and provide link to first in queue aka the one with lowest sid and status queue.
   if (!empty($firstQueued)) {
-    $finalMarkup .= '<br/><a href="submission/'.$firstQueued.'/edit?destination=node/'.$nid.'/manage-event">View first submission in the queue</a>';
+    $finalMarkup .= '<br/><a href="submission/'.$firstQueued.'/edit?destination=node/'.$nid.'/manage-event">View first submission in the queue</a><br/>';
   }
   
+  // Users that have cancelled their participation
+  // Check users that have also cancelled status submission(s).
+  $cancelMarkup = "<b>Canceled users:</b><br>";
+  $userCancel = db_query("SELECT sid FROM {webform_submitted_data} WHERE data = :cancel AND nid = :nid", array(":cancel" => "cancel", ":nid" => $nid))->fetchAll();
+  $cancelUid = array();
+  foreach ($userCancel as $cancel) {
+    $cancelMarkup = "<b>User: </b>" . $user->name . ",<br/>has canceled and has the following other submissions:<br/>";
+    $cancelUid = db_query("SELECT uid FROM {webform_submissions} WHERE sid = :sid AND nid = :nid", array(":sid" => $cancel->sid, ":nid" => $nid))->fetchAll();  
+  }
+  foreach ($cancelUid as $submissionResult) {
+    $otherSubmission = db_query("SELECT * FROM {webform_submissions} WHERE uid = :uid AND nid = :nid", array(":uid" => $submissionResult->uid, ":nid" => $nid))->fetchAll();
+    foreach ($otherSubmission as $submissionData) {
+      $cancelComponentValue = db_query("SELECT data FROM {webform_submitted_data} WHERE sid = :sid AND nid = :nid AND cid = :cid", array(":cid" => 99, ":sid" => $submissionData->sid, ":nid" => $nid))->fetchAll();
+      $cancelMarkup .= '<a href="/node/'.$nid.'/submission/'.$submissionData->sid.'">View</a>: ' . $cancelComponentValue[0]->data . '<br/>';
+    }
+  }
+  $finalMarkup .= $cancelMarkup;
   // Output it
   $form = array(
     '#suffix' => $finalMarkup,

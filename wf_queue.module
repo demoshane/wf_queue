@@ -28,7 +28,6 @@ function wf_queue_permission() {
   * Implements hook_form_alter().
   */
 function wf_queue_form_alter(&$form, &$form_state, $form_id) {
-dsm($form);
   // CHECKS AND MISCALLENEOUS
   // This is to get rid of notices from undefined indexes
   if (!isset($form['#node'])) {
@@ -257,6 +256,7 @@ function wf_queue_node_insert($node) {
   * Implements hook_webform_submission_delete().
   */
 function wf_queue_webform_submission_delete($node, $submission) {
+  // TODO: DO CONTENT TYPE CHECK!
   // Get participant count
   $dbresult = db_query("SELECT COUNT(nid) as count FROM {webform_submitted_data} WHERE nid = :nid AND data = :data", array(":nid" => $node->nid, ":data" => "signup"))->fetchAll();
   $dbresult = $dbresult[0]->count;
@@ -277,7 +277,7 @@ function wf_queue_webform_submission_delete($node, $submission) {
   // Notify moderator and provide link to first in queue aka the one with lowest sid and status queue.
   if ($dbresult <= $participants && !empty($firstQueued)) {
     unset($_SESSION['messages']);
-    drupal_set_message('You have a person waiting in queue. You might want to update him/her to signed up status <a href="submission/'.$firstQueued.'/edit">here</a>');
+    drupal_set_message('You have a person waiting in queue. You might want to update him/her to signed up status <a href="submission/'.$firstQueued.'/edit?destination=node/'.$node->nid.'/manage-event"">here</a>');
   }
 }
 
