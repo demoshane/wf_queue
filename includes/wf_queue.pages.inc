@@ -83,7 +83,7 @@ function wf_queue_form($form, $form_state, $node) {
   }
   // Notify moderator and provide link to first in queue aka the one with lowest sid and status queue.
   if (!empty($firstQueued)) {
-    $finalMarkup .= '<br/><a href="submission/'.$firstQueued.'/edit">View first submission in the queue</a>';
+    $finalMarkup .= '<br/><a href="submission/'.$firstQueued.'/edit?destination=node/'.$nid.'/manage-event">View first submission in the queue</a>';
   }
   
   // Output it
