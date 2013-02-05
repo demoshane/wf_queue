@@ -22,7 +22,7 @@ function wf_queue_permission() {
   );
 }
 
-// TODO: DO COMPONENT CHECKING ISSETS, EVENT_ACTION OPTIONS CHECK.
+// TODO: DO COMPONENT CHECKING ISSETS, EVENT_ACTION OPTIONS CHECK / BETTER PROTECTION / FALLBACK
 
 /** 
   * Implements hook_form_alter().
@@ -60,7 +60,7 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
       }
       $form['#node']->content['field_wf_queue_description'][0]['#markup'] = $manageLink . $form['#node']->content['field_wf_queue_description'][0]['#markup'];
     }
-    // INFORMATION SETUP
+    // BASE INFORMATION SETUP
     // Get Participant limit
     if (isset($form['#node']->field_wf_queue_participants['und'][0]['value'])) {
       $participants = $form['#node']->field_wf_queue_participants['und'][0]['value'];
@@ -96,7 +96,7 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
       $dbresult = $dbresult[0]->count;
     }
 
-    // PARTICIPANT LIMIT FUNCTIONALITY
+    // PARTICIPATION LIMIT FUNCTIONALITY
     // Limit is full
     if ($dbresult >= $participants && isset($participants) && $participants > 0) {
       // Append this to normal page title
@@ -180,9 +180,11 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
 	  array_unshift($form['#validate'], 'wf_queue_validate');
   }
   // FORM PROTECTION
-  // Let's give a event_action slight protection. TODO: Is there a way to completely remove this from component list so that it can't be modified?
-  if ($form_id = "webform-components-form") {
-    $form['components']['99']['mandatory']['#access'] = FALSE;
+  // Let's give a event_action -compononent a slight protection.
+  if ($form['form_token']['#id'] == 'edit-webform-components-form-form-token') {
+    unset($form['#node']->webform['components']['99']);
+    // Instant diet to also remove lingering weight
+    unset($form['components']['99']);
   }
 }
 
@@ -220,7 +222,7 @@ function wf_queue_node_insert($node) {
     // Include webform component functions. If we don't do this, we can't use webform functions needed to create element.
     module_load_include('inc', 'webform', 'includes/webform.components');
 
-    // Check if field exists by doing database query and checking for cid = 99 on this node. TODO: This check is maybe too failsafe. Cid can propably be set to 1
+    // Check if component exists by doing database query and checking for cid = 99 on this node. TODO: This check is maybe too failsafe. Cid can propably be set to 1
     $dbresultwf = db_query("SELECT * FROM {webform_component} WHERE nid = :nid AND cid = :cid", array(":nid" => $node->nid, ":cid" => 99))->fetchField();
 
     // It doesn't exists, create it.
@@ -274,6 +276,6 @@ function wf_queue_webform_submission_delete($node, $submission) {
   // Notify moderator and provide link to first in queue aka the one with lowest sid and status queue.
   if ($dbresult <= $participants && !empty($firstQueued)) {
     unset($_SESSION['messages']);
-    drupal_set_message('You have a person waiting in queue. Update him/her to signed up status <a href="submission/'.$firstQueued.'/edit">here</a>');
+    drupal_set_message('You have a person waiting in queue. You might want to update him/her to signed up status <a href="submission/'.$firstQueued.'/edit">here</a>');
   }
 }
