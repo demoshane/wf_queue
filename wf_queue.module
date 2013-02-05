@@ -6,14 +6,18 @@
 
 include_once 'wf_queue.features.inc';
 
-/** 
+/**
   * Implements hook_permission().
   */
 function wf_queue_permission() {
   return array(
-    'view full webforms' => array(
-      'title' => t('View webforms that have reached participant limit'),
-      'description' => t('Allow different roles to see webforms that have reached their participation limit'),
+    'view expired events' => array(
+      'title' => t('View events that have have passed due date.'),
+      'description' => t('Allows to see expired events. Set this for event moderators.'),
+    ),
+    'show event administrator messages' => array(
+      'title' => t('Show administrator messages'),
+      'description' => t('Allow user to see administrator messages for webforms'),
     ),
   );
 }
@@ -48,14 +52,14 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
 
   // Check we have node of type event and we are on node view. We don't want form handling to trigger on edit or add pages.
   if ($nodetype == "event" && $path == $check) {
-  // if ($nodetype == "event" && $path == $check && !user_access('view full webforms')) {
     // Add link to webform results table
-    $manageLink = '<a href="/node/'.$nid.'/webform-results/table" style="float:right;">Manage your event</a>';
-    if (empty($form['#node']->content['field_wf_queue_description'][0]['#markup'])) {
-      $form['#node']->content['field_wf_queue_description'][0]['#markup'] = "";
+    if(user_access('show event administrator messages')) {
+      $manageLink = '<a href="/node/'.$nid.'/webform-results/table" style="float:right; padding-left:20px; clear:both;">Manage your event</a>';
+      if (empty($form['#node']->content['field_wf_queue_description'][0]['#markup'])) {
+        $form['#node']->content['field_wf_queue_description'][0]['#markup'] = "";
+      }
+      $form['#node']->content['field_wf_queue_description'][0]['#markup'] = $manageLink . $form['#node']->content['field_wf_queue_description'][0]['#markup'];
     }
-
-    $form['#node']->content['field_wf_queue_description'][0]['#markup'] = $manageLink . $form['#node']->content['field_wf_queue_description'][0]['#markup'];
     // INFORMATION SETUP
     // Get Participant limit
     if (isset($form['#node']->field_wf_queue_participants['und'][0]['value'])) {
@@ -70,6 +74,16 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
     }
     else {
       $queue = 0;
+    }
+
+    // Check webform module exists and count possible queue submissions on this form.
+    if (module_exists('webform') && isset($form['submitted']['event_action'])) {
+      $cancel = 0;
+      $cancel = db_query("SELECT COUNT(nid) as count FROM {webform_submitted_data} WHERE nid = :nid AND data = :data", array(":nid" => $nid, ":data" => "cancel"))->fetchAll();
+      $cancel = $cancel[0]->count;
+    }
+    else {
+      $cancel = 0;
     }
 
     // Check webform module exists and count signup submissions on this form. Check also to see if event_action has been deleted. Then just count submissions.
@@ -93,11 +107,13 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
 
       // Notify user that submission limit has been reached. Clear possible previous messages.
       unset($form['submitted']['event_action']['#options']['signup']);
-      unset($_SESSION['messages']);
+      if (!empty($_SESSION['messages'])) {
+        unset($_SESSION['messages']);
+      }
       drupal_set_message(t('This event is currently full. However you can queue for the event.'), 'warning');
     }
 	  // Don't allow signing up if there is people in queue even if there is space on course, in other words - maintainer has not updated someone from queue to course or is currently doing so. This protects course from signups while maintainer is working on with signups.
-	  elseif ($dbresult < $participants && isset($participants) && $participants > 0 && $queue > 0) {
+ 	  elseif ($dbresult < $participants && isset($participants) && $participants > 0 && $queue > 0) {
       unset($form['submitted']['event_action']['#options']['signup']);
 	  }
     else
@@ -105,40 +121,42 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
     {
       unset($form['submitted']['event_action']['#options']['queue']);
     }
-
     // END DATE FUNCTIONALITY
     // Let's check if ending date has passed and disable submission
-    // Convert ending date to epoch time stamp for comparison. Field must have no timezone for this to work
-    if (isset($form['#node']->field_wf_queue_end_date['und'][0]['value'])) {
-      $endDate = strtotime($form['#node']->field_wf_queue_end_date['und'][0]['value']);
+    if (!user_access('view expired events')) {
+      // Convert ending date to epoch time stamp for comparison. Field must have no timezone for this to work
+      if (isset($form['#node']->field_wf_queue_end_date['und'][0]['value'])) {
+        $endDate = strtotime($form['#node']->field_wf_queue_end_date['und'][0]['value']);
+      }
+      else
+      {
+        $endDate = "";
+      }
+      // Get current date and set variable for comparison
+      $today = getdate();
+
+      // Get last key epoch value from date array for epoch stamp comparison
+      $today = array_slice($today, -1, 1, TRUE);
+      $today = $today[0];
+
+      // Compare date today to subscription end date and disable edit button if it is equal or greater than end date
+      // If epoch value of today is greater or same than epoch value of end date disable submit.
+      if ($today >= $endDate && !empty($endDate)) {
+        // Unset form components
+        unset($form['actions']['submit']);
+        unset($form['submitted']);
+
+        // Due date has passed, modify page title
+        $dueTitle = $form['#node']->title . " - due date has passed";
+        drupal_set_title(t($dueTitle));
+
+        // Notify user that due date for signups has passed. Clear possible previous messages.
+        if (!empty($_SESSION['messages'])) {
+          unset($_SESSION['messages']);
+        }
+        drupal_set_message(t('Ending date for event subscriptions has passed. Signup is disabled.'), 'warning');
+  	  }
     }
-    else
-    {
-      $endDate = "";
-    }
-    // Get current date and set variable for comparison
-    $today = getdate();
-
-    // Get last key epoch value from date array for epoch stamp comparison
-    $today = array_slice($today, -1, 1, TRUE);
-    $today = $today[0];
-
-    // Compare date today to subscription end date and disable edit button if it is equal or greater than end date
-    // If epoch value of today is greater or same than epoch value of end date disable submit.
-    if ($today >= $endDate && !empty($endDate)) {
-      // Unset form components
-      unset($form['actions']['submit']);
-      unset($form['submitted']);
-
-      // Due date has passed, modify page title
-      $dueTitle = $form['#node']->title . " - due date has passed";
-      drupal_set_title(t($dueTitle));
-
-      // Notify user that due date for signups has passed. Clear possible previous messages.
-      unset($_SESSION['messages']);
-      drupal_set_message(t('Ending date for event subscriptions has passed. Signup is disabled.'), 'warning');
-	  }
-
 	  // MARKUP FOR THE PAGE
     // How many are currently participating for markup
 	  $currentParticipants = t("Currently participating %dbresult / %participants. ", array('%dbresult' => $dbresult, '%participants' => $participants));
@@ -146,6 +164,11 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
 	  // If there is queue, tell how much
 	  if ($queue > 0) {
   	  $currentParticipants .= t("There is %queue person(s) in the queue.", array('%queue' => $queue));
+	  }
+
+	  // Has someone canceled? TODO: Make this message shown only to administrators or implement custom permission for this.
+	  if ($cancel > 0 && user_access('show webform administrator messages')) {
+  	  drupal_set_message(t('ADMINISTRATOR NOTICE: There is person(s) that have canceled their participation. Remove their signups to free up space from <a href="/node/'.$nid.'/webform-results/table">here.</a>'), 'warning');
 	  }
 
 	  // Move information to markup
@@ -157,7 +180,7 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
 	  array_unshift($form['#validate'], 'wf_queue_validate');
   }
   // FORM PROTECTION
-  // Let's give a event_action slight protection
+  // Let's give a event_action slight protection. TODO: Is there a way to completely remove this from component list so that it can't be modified?
   if ($form_id = "webform-components-form") {
     $form['components']['99']['mandatory']['#access'] = FALSE;
   }
@@ -227,7 +250,7 @@ function wf_queue_node_insert($node) {
   }
 }
 
-/** 
+/**
   * Implements hook_webform_submission_delete().
   */
 function wf_queue_webform_submission_delete($node, $submission) {
