@@ -10,53 +10,54 @@
 /**
  * Implements hook_form();
  */
+// DELETE THESE
+/**
+ * Fetch a specified submission for a webform node.
+ */
+// function webform_get_submission($nid, $sid, $reset = FALSE) {
+
+// END DELETE
 
 function wf_queue_form($form, $form_state, $node) {
   // Load the Webform module functions for our use.
-  // module_load_include('inc', 'webform', 'includes/webform.report');
-  // module_load_include('inc', 'webform', 'includes/webform.submissions');
+  module_load_include('inc', 'webform', 'includes/webform.report');
+  module_load_include('inc', 'webform', 'includes/webform.submissions');
 
-  // Build the form
+  // Set nid
   $nid = $node->nid;
-  // Get submissions for this node
-  $submissions = array();
-  $submissions = db_query("SELECT DISTINCT sid FROM {webform_submitted_data} WHERE nid = :nid", array(":nid" => $nid))->fetchAll();
+  // Load submissions
+  $submissions = webform_get_submissions($nid);
   // Initiate header markup
   $headMarkup = "<tr><th>User name</th>";
   // Get component names
   $componentNames = db_query("SELECT name FROM {webform_component} WHERE nid = :nid", array(":nid" => $nid))->fetchAll();
-  
+
   // Build components as header
   foreach($componentNames as $header) {
     $headMarkup .= '<th>'.$header->name.'</th>';
   }
   $markup = "";
+
   // Loop through submissions
-  foreach ($submissions as $sid) {
+  foreach ($submissions as $submission) {
+    dsm($submission, 'Submission');
     // Row markup
     $markup .= "<tr>";
     // Get submission id
-    $sid = $sid->sid;
-    // Get user for the submission
-    $uid = db_query("SELECT uid FROM {webform_submissions} WHERE sid = :sid", array(":sid" => $sid))->fetchAll();
-    $uid = $uid[0]->uid;
+    $sid = $submission->sid;
+    // Get uid for the submission
+    $uid = $submission->uid;
     $user = user_load($uid);
     // Get components
-    $result = db_query("SELECT * FROM {webform_submitted_data} WHERE sid = :sid", array(":sid" => $sid))->fetchAll();
+    $result = $submission->data;
     // First row shall be the user
     $markup .= '<td><a href="/user/'.$uid.'">'.$user->name.'</a></td>';
-    
+
     // Loop through components
     foreach ($result as $component) {
-      // Add component to markup
-      $markup .= "<td>";
-      $componentName = db_query("SELECT name FROM {webform_component} WHERE cid = :cid AND nid = :nid", array(":cid" => $component->cid, ":nid" => $node->nid))->fetchAll();
-      // Get submitted value
-      $component = $component->data;
-      $markup .= $component;
-      $markup .= "</td>";
+      $markup .= "<td>" . $component[0] . "</td>";
     }
-    
+
     // Tools
     $markup .= '
     <td><a href="/node/'.$nid.'/submission/'.$sid.'/edit?destination=node/'.$nid.'/manage-event">edit</a></td>
@@ -65,48 +66,68 @@ function wf_queue_form($form, $form_state, $node) {
     </tr>
     ';
   }
-  
-  // Finalize the markup
-  $headMarkup .= "<th>Edit</th><th>Delete</th><th>View</th></tr>";
-  $finalMarkup = '<table>';
-  $finalMarkup .= $headMarkup;
-  $finalMarkup .= $markup;
-  $finalMarkup .= "</table>";
-  
-  // Who is first in the queue?
-  $firstQueuedSid = db_query("SELECT sid FROM {webform_submitted_data} WHERE nid = :nid AND data = :data", array(":nid" => $nid, ":data" => "queue"))->fetchAll();
-  $firstQueued = array();
-  // Get first one
-  if (!empty($firstQueuedSid)) {
-    $firstQueued = min($firstQueuedSid);
-    $firstQueued = $firstQueued->sid;
+
+  // Load queue
+  $queue = db_query("SELECT sid FROM {webform_submitted_data} WHERE nid = :nid AND data = :data", array(":nid" => $nid, ":data" => "queue"))->fetchAll();
+
+  // Get first one in the queue
+  if (!empty($queue)) {
+    $firstQueued = min($queue)->sid;
   }
-  // Notify moderator and provide link to first in queue aka the one with lowest sid and status queue.
+
+  // Create link for easy access.
   if (!empty($firstQueued)) {
-    $finalMarkup .= '<br/><a href="submission/'.$firstQueued.'/edit?destination=node/'.$nid.'/manage-event">View first submission in the queue</a><br/>';
+    $queueMarkup = '<br/><a href="submission/'.$firstQueued.'/edit?destination=node/'.$nid.'/manage-event">View first submission in the queue</a><br/><br/>';
   }
-  
+
   // Users that have cancelled their participation
   // Check users that have also cancelled status submission(s).
-  $cancelMarkup = "<b>Canceled users:</b><br>";
   $userCancel = db_query("SELECT sid FROM {webform_submitted_data} WHERE data = :cancel AND nid = :nid", array(":cancel" => "cancel", ":nid" => $nid))->fetchAll();
-  $cancelUid = array();
-  foreach ($userCancel as $cancel) {
-    $cancelMarkup = "<b>User: </b>" . $user->name . ",<br/>has canceled and has the following other submissions:<br/>";
-    $cancelUid = db_query("SELECT uid FROM {webform_submissions} WHERE sid = :sid AND nid = :nid", array(":sid" => $cancel->sid, ":nid" => $nid))->fetchAll();  
-  }
-  foreach ($cancelUid as $submissionResult) {
-    $otherSubmission = db_query("SELECT * FROM {webform_submissions} WHERE uid = :uid AND nid = :nid", array(":uid" => $submissionResult->uid, ":nid" => $nid))->fetchAll();
-    foreach ($otherSubmission as $submissionData) {
-      $cancelComponentValue = db_query("SELECT data FROM {webform_submitted_data} WHERE sid = :sid AND nid = :nid AND cid = :cid", array(":cid" => 99, ":sid" => $submissionData->sid, ":nid" => $nid))->fetchAll();
-      $cancelMarkup .= '<a href="/node/'.$nid.'/submission/'.$submissionData->sid.'">View</a>: ' . $cancelComponentValue[0]->data . '<br/>';
+
+  // Loop cancellations
+  $cancelMarkup = "";
+  foreach ($submissions as $submission) {
+    $status = $submission->data[99];
+    $uid = $submission->uid;
+    if ($status[0] == "cancel") {
+      $cancelMarkupTransfer = "";
+      $userCancel = user_load($uid);
+      // Build markup for each user
+      $cancelMarkupTransfer = "<br/><b>User: </b>" . $userCancel->name . ",<br/>has canceled and has the following other submissions:<br/>";
+      $cancelMarkup .= _wf_queue_cancel_submissions($nid, $uid, $cancelMarkupTransfer);
     }
   }
-  $finalMarkup .= $cancelMarkup;
-  // Output it
+  $cancelMarkup = "<h3>Canceled users:</h3>" . $cancelMarkup;
+
+  // Finalize the markup for the page
+  $headMarkup .= "<th>Edit</th><th>Delete</th><th>View</th></tr>";
+  $finalMarkup = '<table>' . $headMarkup . $markup . "</table>" . $queueMarkup . $cancelMarkup;
+  
+  // Finish it!
   $form = array(
     '#suffix' => $finalMarkup,
   );
 
+  // Return built form
   return $form;
+}
+
+// This function gets submissions for user that has cancellations
+
+function _wf_queue_cancel_submissions($nid, $uid, $cancelMarkupTransfer) {
+  $cancelMarkup = $cancelMarkupTransfer;
+  // Get other submissions for canceled user
+  $otherSubmissions = db_query("SELECT sid FROM {webform_submissions} WHERE uid = :uid AND nid = :nid", array(":uid" => $uid, ":nid" => $nid))->fetchAll();
+
+  // Loop them
+  foreach ($otherSubmissions as $submissionData) {
+    // Load submission data
+    $data = webform_get_submission($nid, $submissionData->sid);
+    // Build markup
+    $cancelMarkup .= '<a href="/node/'.$nid.'/submission/'.$submissionData->sid.'">View</a>: ' . ucfirst($data->data[99][0]) . '<br/>';
+  }
+
+  $cancelMarkupTransfer = $cancelMarkup;
+  // Return markup
+  return $cancelMarkupTransfer;
 }
