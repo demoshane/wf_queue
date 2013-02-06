@@ -54,14 +54,14 @@ function wf_queue_form($form, $form_state, $node) {
 
     // Loop through components
     foreach ($result as $component) {
-      $markup .= "<td>" . $component[0] . "</td>";
+      $markup .= "<td>" . ucfirst($component[0]) . "</td>";
     }
 
     // Tools
     $markup .= '
-    <td><a href="/node/'.$nid.'/submission/'.$sid.'/edit?destination=node/'.$nid.'/manage-event">edit</a></td>
-    <td><a href="/node/'.$nid.'/submission/'.$sid.'/delete?destination=node/'.$nid.'/manage-event">delete</a></td>
-    <td><a href="/node/'.$nid.'/submission/'.$sid.'">view</a></td>
+    <td><a href="/node/'.$nid.'/submission/'.$sid.'/edit?destination=node/'.$nid.'/manage-event">Edit</a></td>
+    <td><a href="/node/'.$nid.'/submission/'.$sid.'/delete?destination=node/'.$nid.'/manage-event">Delete</a></td>
+    <td><a href="/node/'.$nid.'/submission/'.$sid.'">View</a></td>
     </tr>
     ';
   }
@@ -92,11 +92,11 @@ function wf_queue_form($form, $form_state, $node) {
       $cancelMarkupTransfer = "";
       $userCancel = user_load($uid);
       // Build markup for each user
-      $cancelMarkupTransfer = "<br/><b>User: </b>" . $userCancel->name . ",<br/>has canceled and has the following other submissions:<br/>";
+      $cancelMarkupTransfer = '<div class="cancellation"><b>User: </b>' . $userCancel->name . ',<br/>has canceled and has the following other submissions:<br/>';
       $cancelMarkup .= _wf_queue_cancel_submissions($nid, $uid, $cancelMarkupTransfer);
     }
   }
-  $cancelMarkup = "<h3>Canceled users:</h3>" . $cancelMarkup;
+  $cancelMarkup = "<h3>Canceled users:</h3><p>When managing cancellations, delete cancellation last.</p>" . $cancelMarkup;
 
   // Finalize the markup for the page
   $headMarkup .= "<th>Edit</th><th>Delete</th><th>View</th></tr>";
@@ -123,8 +123,9 @@ function _wf_queue_cancel_submissions($nid, $uid, $cancelMarkupTransfer) {
     // Load submission data
     $data = webform_get_submission($nid, $submissionData->sid);
     // Build markup
-    $cancelMarkup .= '<a href="/node/'.$nid.'/submission/'.$submissionData->sid.'">View</a>: ' . ucfirst($data->data[99][0]) . '<br/>';
+    $cancelMarkup .= '<div style="width:200px; display:block; height: auto; padding: 10px; background-color: #eee; margin-left:20px; margin-top:10px; position:relative; left: -20px;">' . ucfirst($data->data[99][0]) . ': <a href="/node/'.$nid.'/submission/'.$submissionData->sid.'">View</a> | <a href="/node/'.$nid.'/submission/'.$submissionData->sid. '/delete?destination=node/'.$nid.'/manage-event">Delete</a><br/></div>';
   }
+  $cancelMarkup .= "</div>";
 
   $cancelMarkupTransfer = $cancelMarkup;
   // Return markup

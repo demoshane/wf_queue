@@ -52,14 +52,6 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
 
   // Check we have node of type event and we are on node view. We don't want form handling to trigger on edit or add pages.
   if ($nodetype == "event" && $path == $check) {
-    // Add link to webform results table
-    if(user_access('show event administrator messages')) {
-      $manageLink = '<a href="/node/'.$nid.'/webform-results/table" style="float:right; padding-left:20px; clear:both;">Manage your event</a>';
-      if (empty($form['#node']->content['field_wf_queue_description'][0]['#markup'])) {
-        $form['#node']->content['field_wf_queue_description'][0]['#markup'] = "";
-      }
-      $form['#node']->content['field_wf_queue_description'][0]['#markup'] = $manageLink . $form['#node']->content['field_wf_queue_description'][0]['#markup'];
-    }
     // BASE INFORMATION SETUP
     // Get Participant limit
     if (isset($form['#node']->field_wf_queue_participants['und'][0]['value'])) {
@@ -93,17 +85,17 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
     }
     elseif(module_exists('webform')) {
       $dbresult = db_query("SELECT COUNT(nid) as count FROM {webform_submitted_data} WHERE nid = :nid", array(":nid" => $nid))->fetchAll();
-      $dbresult = $dbresult[0]->count;
+      $dbresult = webform_get_submission_count($nid);
     }
 
     // PARTICIPATION LIMIT FUNCTIONALITY
     // Limit is full
     if ($dbresult >= $participants && isset($participants) && $participants > 0) {
       // Append this to normal page title
-      $fullTitle = $form['#node']->title . " - Participation limit reached";
+      $fullTitle = $form['#node']->title . t(" - Participation limit reached");
 
       // Participation limit is full, modify page title and unset the form until there is more space. User can free up space to course by deleting submissions if he wants to.
-      drupal_set_title(t($fullTitle));
+      drupal_set_title($fullTitle);
 
       // Notify user that submission limit has been reached. Clear possible previous messages.
       unset($form['submitted']['event_action']['#options']['signup']);
@@ -147,8 +139,8 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
         unset($form['submitted']);
 
         // Due date has passed, modify page title
-        $dueTitle = $form['#node']->title . " - due date has passed";
-        drupal_set_title(t($dueTitle));
+        $dueTitle = $form['#node']->title . t(" - due date has passed");
+        drupal_set_title($dueTitle);
 
         // Notify user that due date for signups has passed. Clear possible previous messages.
         if (!empty($_SESSION['messages'])) {
@@ -168,7 +160,7 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
 
 	  // Has someone canceled? TODO: Make this message shown only to administrators or implement custom permission for this.
 	  if ($cancel > 0 && user_access('show webform administrator messages')) {
-  	  drupal_set_message(t('ADMINISTRATOR NOTICE: There is person(s) that have canceled their participation. Remove their signups to free up space from <a href="/node/'.$nid.'/webform-results/table">here.</a>'), 'warning');
+  	  drupal_set_message(t('ADMINISTRATOR NOTICE: There is person(s) that have canceled their participation. Remove their signups to free up space from <a href="/node/'.$nid.'/manage-event">here.</a>'), 'warning');
 	  }
 
 	  // Move information to markup
