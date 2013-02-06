@@ -12,6 +12,9 @@
  */
 
 function wf_queue_form($form, $form_state, $node) {
+  $headers = array();
+  $subs = array();
+
   // Load the Webform module functions for our use.
   module_load_include('inc', 'webform', 'includes/webform.report');
   module_load_include('inc', 'webform', 'includes/webform.submissions');
@@ -21,20 +24,33 @@ function wf_queue_form($form, $form_state, $node) {
   // Load submissions
   $submissions = webform_get_submissions($nid);
   // Initiate header markup
-  $headMarkup = "<tr><th>User name</th>";
+  //$headMarkup = "<tr><th>User name</th>";
+  $test_headers['username'] = 'User name';
+
   // Get component names
-  $componentNames = db_query("SELECT name FROM {webform_component} WHERE nid = :nid", array(":nid" => $nid))->fetchAll();
+  $componentNames = db_select('webform_component', 'comp')
+                  ->fields('comp', array('name'))
+                  ->condition('nid', $nid, '=')
+                  ->execute()
+                  ->fetchAll();
 
   // Build components as header
   foreach($componentNames as $header) {
-    $headMarkup .= '<th>'.$header->name.'</th>';
+    //$headMarkup .= '<th>'.$header->name.'</th>';
+    $test_headers[] = $header->name;
   }
-  $markup = "";
+  $headers = array_merge($test_headers, array(
+    'edit' => 'Edit',
+    'delete' => 'Delete',
+    'view' => 'View'
+  ));
+
+  //$markup = "";
 
   // Loop through submissions
   foreach ($submissions as $submission) {
     // Row markup
-    $markup .= "<tr>";
+    //$markup .= "<tr>";
     // Get submission id
     $sid = $submission->sid;
     // Get uid for the submission
@@ -43,25 +59,37 @@ function wf_queue_form($form, $form_state, $node) {
     // Get components
     $result = $submission->data;
     // First row shall be the user
-    $markup .= '<td><a href="/user/'.$uid.'">'.$user->name.'</a></td>';
+    // $markup .= '<td>' . l($user->name, 'user/' . $uid) . '</td>';
 
+    $test_subs = array(
+      'uid' => $uid,
+      'nid' => $nid,
+      'sid' => $submission->sid,
+      'fields' => array(
+        'username' => $user->name
+      )
+    );
+
+    $comp = array();
     // Loop through components
     foreach ($result as $component) {
       if (isset($component[0])){
-        $markup .= "<td>" . ucfirst($component[0]) . "</td>";
+        $comp[] = ucfirst($component[0]);
+        // $markup .= "<td>" . ucfirst($component[0]) . "</td>";
       }
       else {
-        $markup .= "<td>" . ucfirst($component['value'][0]) . "</td>";
+        $comp[] = ucfirst($component['value'][0]);
+        // $markup .= "<td>" . ucfirst($component['value'][0]) . "</td>";
       }
     }
-
-    // Tools
-    $markup .= '
-    <td><a href="/node/'.$nid.'/submission/'.$sid.'/edit?destination=node/'.$nid.'/manage-event">Edit</a></td>
-    <td><a href="/node/'.$nid.'/submission/'.$sid.'/delete?destination=node/'.$nid.'/manage-event">Delete</a></td>
-    <td><a href="/node/'.$nid.'/submission/'.$sid.'">View</a></td>
-    </tr>
-    ';
+    $links = array(
+      'edit' => l(t('Edit'), 'node/' . $nid . '/submission/' . $sid . '/edit?destination=node/' . $nid . '/manage-event'),
+      'delete' => l(t('Delete'), 'node/' . $nid . '/submission/' . $sid . '/delete?destination=node/' . $nid . '/manage-event'),
+      'view' => l(t('View'), 'node/' . $nid . '/submission/' . $sid),
+    );
+    $fields = array_merge($comp, $links);
+    $test_subs['fields'] = array_merge($test_subs['fields'], $fields);
+    $subs[] = $test_subs;
   }
 
   // Load queue
@@ -74,7 +102,7 @@ function wf_queue_form($form, $form_state, $node) {
 
   // Create link for easy access.
   if (!empty($firstQueued)) {
-    $queueMarkup = '<br/><a href="submission/'.$firstQueued.'/edit?destination=node/'.$nid.'/manage-event">View first submission in the queue</a><br/><br/>';
+    $queuelink = l(t('View first submission in the queue'), 'node/' . $nid . '/submission/' . $firstQueued . '/edit?destination=node/' . $nid . '/manage-event');
   }
 
   // Users that have cancelled their participation
@@ -82,7 +110,7 @@ function wf_queue_form($form, $form_state, $node) {
   $userCancel = db_query("SELECT sid FROM {webform_submitted_data} WHERE data = :cancel AND nid = :nid", array(":cancel" => "cancel", ":nid" => $nid))->fetchAll();
 
   // Loop cancellations
-  $cancelMarkup = "";
+  //$cancelMarkup = "";
   foreach ($submissions as $submission) {
     $status = $submission->data[99];
     $uid = $submission->uid;
@@ -93,22 +121,25 @@ function wf_queue_form($form, $form_state, $node) {
       $state = $status['value'][0];
     }
     if ($state == "cancel") {
-      $cancelMarkupTransfer = "";
+      //$cancelMarkupTransfer = "";
       $userCancel = user_load($uid);
       // Build markup for each user
-      $cancelMarkupTransfer = '<div class="cancellation"><b>User: </b>' . $userCancel->name . ',<br/>has canceled and has the following other submissions:<br/>';
-      $cancelMarkup .= _wf_queue_cancel_submissions($nid, $uid, $cancelMarkupTransfer);
+      //$cancelMarkupTransfer = '<div class="cancellation"><b>User: </b>' . $userCancel->name . ',<br/>has canceled and has the following other submissions:<br/>';
+      $cancels[$userCancel->name] = _wf_queue_cancel_submissions($nid, $uid);
+      //$cancelMarkup .= _wf_queue_cancel_submissions($nid, $uid, $cancelMarkupTransfer);
     }
   }
-  $cancelMarkup = "<h3>Canceled users:</h3><p>When managing cancellations, delete cancellation last.</p>" . $cancelMarkup;
+  //$cancelMarkup = "<h3>Canceled users:</h3><p>When managing cancellations, delete cancellation last.</p>" . $cancelMarkup;
 
   // Finalize the markup for the page
-  $headMarkup .= "<th>Edit</th><th>Delete</th><th>View</th></tr>";
-  $finalMarkup = '<table>' . $headMarkup . $markup . "</table>" . $queueMarkup . $cancelMarkup;
+  /*
+    $headMarkup .= "<th>Edit</th><th>Delete</th><th>View</th></tr>";
+    $finalMarkup = '<table>' . $headMarkup . $markup . "</table>" . $queueMarkup . $cancelMarkup;
+  */
 
   // Finish it!
   $form = array(
-    '#suffix' => $finalMarkup,
+    '#suffix' => theme('wf_queue', array('headers' => $headers, 'submissions' => $subs, 'queue' => $queuelink, 'cancel' => $cancels)),
   );
 
   // Return built form
@@ -117,27 +148,42 @@ function wf_queue_form($form, $form_state, $node) {
 
 // This function gets submissions for user that has cancellations
 
-function _wf_queue_cancel_submissions($nid, $uid, $cancelMarkupTransfer) {
-  $cancelMarkup = $cancelMarkupTransfer;
+//function _wf_queue_cancel_submissions($nid, $uid, $cancelMarkupTransfer) {
+function _wf_queue_cancel_submissions($nid, $uid) {
+  //$cancelMarkup = $cancelMarkupTransfer;
   // Get other submissions for canceled user
-  $otherSubmissions = db_query("SELECT sid FROM {webform_submissions} WHERE uid = :uid AND nid = :nid", array(":uid" => $uid, ":nid" => $nid))->fetchAll();
+  //$otherSubmissions = db_query("SELECT sid FROM {webform_submissions} WHERE uid = :uid AND nid = :nid", array(":uid" => $uid, ":nid" => $nid))->fetchAll();
+  $return = array();
+  $otherSubmissions = db_select('webform_submissions', 'subs')
+                    ->fields('subs', array('sid'))
+                    ->condition('uid', $uid, '=')
+                    ->condition('nid', $nid, '=')
+                    ->execute()
+                    ->fetchAll();
 
   // Loop them
+  $i = 0;
   foreach ($otherSubmissions as $submissionData) {
     // Load submission data
     $data = webform_get_submission($nid, $submissionData->sid);
     // Build markup
     if (isset($data->data[99][0])) {
-      $username = $data->data[99][0];
+      $return[$i]['action'] = $data->data[99][0];
     }
     else {
-      $username = $data->data[99]['value'][0];
+      $return[$i]['action'] = $data->data[99]['value'][0];
     }
-    $cancelMarkup .= '<div style="width:200px; display:block; height: auto; padding: 10px; background-color: #eee; margin-left:20px; margin-top:10px; position:relative; left: -20px;">' . $username . ': <a href="/node/'.$nid.'/submission/'.$submissionData->sid.'">View</a> | <a href="/node/'.$nid.'/submission/'.$submissionData->sid. '/delete?destination=node/'.$nid.'/manage-event">Delete</a><br/></div>';
-  }
-  $cancelMarkup .= "</div>";
 
-  $cancelMarkupTransfer = $cancelMarkup;
+    $return[$i]['nid'] = $nid;
+    $return[$i]['sid'] = $submissionData->sid;
+
+    //$cancelMarkup .= '<div style="width:200px; display:block; height: auto; padding: 10px; background-color: #eee; margin-left:20px; margin-top:10px; position:relative; left: -20px;">' . $username . ': <a href="/node/'.$nid.'/submission/'.$submissionData->sid.'">View</a> | <a href="/node/'.$nid.'/submission/'.$submissionData->sid. '/delete?destination=node/'.$nid.'/manage-event">Delete</a><br/></div>';
+    $i++;
+  }
+  // $cancelMarkup .= "</div>";
+
+  // $cancelMarkupTransfer = $cancelMarkup;
   // Return markup
-  return $cancelMarkupTransfer;
+  //return $cancelMarkupTransfer;
+  return $return;
 }

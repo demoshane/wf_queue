@@ -6,6 +6,15 @@
 
 include_once 'wf_queue.features.inc';
 
+function wf_queue_theme() {
+  return array(
+    'wf_queue' => array(
+      'template' => 'wf_queue',
+      'variables' => array('headers' => NULL, 'submissions' => NULL, 'queue' => NULL, 'cancel' => NULL),
+    ),
+  );
+}
+
 /**
   * Implements hook_permission().
   */
@@ -24,7 +33,7 @@ function wf_queue_permission() {
 
 // TODO: DO COMPONENT CHECKING ISSETS, EVENT_ACTION OPTIONS CHECK / BETTER PROTECTION / FALLBACK
 
-/** 
+/**
   * Implements hook_form_alter().
   */
 function wf_queue_form_alter(&$form, &$form_state, $form_id) {
@@ -205,7 +214,7 @@ function wf_queue_validate($form) {
   }
 }
 
-/** 
+/**
   * Implements hook_node_insert().
   */
 function wf_queue_node_insert($node) {
@@ -295,4 +304,26 @@ function wf_queue_menu() {
   );
 
   return $items;
+}
+
+/**
+ * Implements hook_webform_component_insert().
+ */
+function wf_queue_webform_component_insert($component) {
+  $submissions = db_select('webform_submitted_data', 'data')
+               ->fields('data', array('sid'))
+               ->groupBy('data.sid')
+               ->execute()
+               ->fetchAll();
+  foreach($submissions as $submission) {
+    db_insert('webform_submitted_data')
+     ->fields(array(
+       'nid' => $component['nid'],
+       'sid' => $submission->sid,
+       'cid' => $component['cid'],
+       'no' => 0,
+       'data' => '',
+     ))
+     ->execute();
+  }
 }
