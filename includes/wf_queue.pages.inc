@@ -112,6 +112,7 @@ function wf_queue_form($form, $form_state, $node) {
   // Loop cancellations
   //$cancelMarkup = "";
   foreach ($submissions as $submission) {
+  
     $status = $submission->data[99];
     $uid = $submission->uid;
     if (isset($status[0])){
@@ -120,12 +121,14 @@ function wf_queue_form($form, $form_state, $node) {
     else {
       $state = $status['value'][0];
     }
+    dsm($state);
     if ($state == "cancel") {
       //$cancelMarkupTransfer = "";
       $userCancel = user_load($uid);
       // Build markup for each user
       //$cancelMarkupTransfer = '<div class="cancellation"><b>User: </b>' . $userCancel->name . ',<br/>has canceled and has the following other submissions:<br/>';
-      $cancels[$userCancel->name] = _wf_queue_cancel_submissions($nid, $uid);
+      $cancels[$userCancel->name]['submissions'] = _wf_queue_cancel_submissions($nid, $uid);
+      $cancels[$userCancel->name]['uid'] = $uid;
       //$cancelMarkup .= _wf_queue_cancel_submissions($nid, $uid, $cancelMarkupTransfer);
     }
   }
