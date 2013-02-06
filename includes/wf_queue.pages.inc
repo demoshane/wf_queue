@@ -40,7 +40,6 @@ function wf_queue_form($form, $form_state, $node) {
 
   // Loop through submissions
   foreach ($submissions as $submission) {
-    dsm($submission, 'Submission');
     // Row markup
     $markup .= "<tr>";
     // Get submission id
@@ -102,7 +101,7 @@ function wf_queue_form($form, $form_state, $node) {
   // Finalize the markup for the page
   $headMarkup .= "<th>Edit</th><th>Delete</th><th>View</th></tr>";
   $finalMarkup = '<table>' . $headMarkup . $markup . "</table>" . $queueMarkup . $cancelMarkup;
-  
+
   // Finish it!
   $form = array(
     '#suffix' => $finalMarkup,
