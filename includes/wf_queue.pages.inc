@@ -10,13 +10,6 @@
 /**
  * Implements hook_form();
  */
-// DELETE THESE
-/**
- * Fetch a specified submission for a webform node.
- */
-// function webform_get_submission($nid, $sid, $reset = FALSE) {
-
-// END DELETE
 
 function wf_queue_form($form, $form_state, $node) {
   // Load the Webform module functions for our use.
