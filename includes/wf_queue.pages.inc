@@ -54,7 +54,12 @@ function wf_queue_form($form, $form_state, $node) {
 
     // Loop through components
     foreach ($result as $component) {
-      $markup .= "<td>" . ucfirst($component[0]) . "</td>";
+      if (isset($component[0])){
+        $markup .= "<td>" . ucfirst($component[0]) . "</td>";
+      }
+      else {
+        $markup .= "<td>" . ucfirst($component['value'][0]) . "</td>";
+      }
     }
 
     // Tools
@@ -88,7 +93,13 @@ function wf_queue_form($form, $form_state, $node) {
   foreach ($submissions as $submission) {
     $status = $submission->data[99];
     $uid = $submission->uid;
-    if ($status[0] == "cancel") {
+    if (isset($status[0])){
+      $state = $status[0];
+    }
+    else {
+      $state = $status['value'][0];
+    }
+    if ($state == "cancel") {
       $cancelMarkupTransfer = "";
       $userCancel = user_load($uid);
       // Build markup for each user
@@ -123,7 +134,13 @@ function _wf_queue_cancel_submissions($nid, $uid, $cancelMarkupTransfer) {
     // Load submission data
     $data = webform_get_submission($nid, $submissionData->sid);
     // Build markup
-    $cancelMarkup .= '<div style="width:200px; display:block; height: auto; padding: 10px; background-color: #eee; margin-left:20px; margin-top:10px; position:relative; left: -20px;">' . ucfirst($data->data[99][0]) . ': <a href="/node/'.$nid.'/submission/'.$submissionData->sid.'">View</a> | <a href="/node/'.$nid.'/submission/'.$submissionData->sid. '/delete?destination=node/'.$nid.'/manage-event">Delete</a><br/></div>';
+    if (isset($data->data[99][0])) {
+      $username = $data->data[99][0];
+    }
+    else {
+      $username = $data->data[99]['value'][0];
+    }
+    $cancelMarkup .= '<div style="width:200px; display:block; height: auto; padding: 10px; background-color: #eee; margin-left:20px; margin-top:10px; position:relative; left: -20px;">' . $username . ': <a href="/node/'.$nid.'/submission/'.$submissionData->sid.'">View</a> | <a href="/node/'.$nid.'/submission/'.$submissionData->sid. '/delete?destination=node/'.$nid.'/manage-event">Delete</a><br/></div>';
   }
   $cancelMarkup .= "</div>";
 
