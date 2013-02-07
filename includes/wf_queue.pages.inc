@@ -121,7 +121,6 @@ function wf_queue_form($form, $form_state, $node) {
     else {
       $state = $status['value'][0];
     }
-    dsm($state);
     if ($state == "cancel") {
       //$cancelMarkupTransfer = "";
       $userCancel = user_load($uid);

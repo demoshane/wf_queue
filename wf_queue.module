@@ -24,9 +24,9 @@ function wf_queue_permission() {
       'title' => t('View events that have have passed due date.'),
       'description' => t('Allows to see expired events. Set this for event moderators.'),
     ),
-    'show event administrator messages' => array(
-      'title' => t('Show administrator messages'),
-      'description' => t('Allow user to see administrator messages for webforms'),
+    'administer events' => array(
+      'title' => t('Access administration tools'),
+      'description' => t('Grants access to administration page for events'),
     ),
   );
 }
@@ -296,7 +296,7 @@ function wf_queue_menu() {
     'page arguments' => array('wf_queue_form', 1),
     //'access callback' => 'webform_mass_email_form_access',
     //'access arguments' => array(1),
-    'access arguments' => array('access content'),
+    'access arguments' => array('administer events'),
     // File that contains requested page
     'file' => 'includes/wf_queue.pages.inc',
     'weight' => 20,
@@ -310,6 +310,7 @@ function wf_queue_menu() {
  * Implements hook_webform_component_insert().
  */
 function wf_queue_webform_component_insert($component) {
+  // Get all
   $submissions = db_select('webform_submitted_data', 'data')
                ->fields('data', array('sid'))
                ->groupBy('data.sid')

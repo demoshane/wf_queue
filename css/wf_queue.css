@@ -1,0 +1,108 @@
+/*styles for managing events page*/
+/*+clearfix {*/
+.submissions-container:after {
+	clear: both;
+	content: ".";
+	display: block;
+	font-size: 0;
+	height: 0;
+	visibility: hidden;
+}
+.submissions-container {
+	display: inline-block;
+}
+.submissions-container {
+/*\*/
+	display: block;
+/**/
+	-height: 1px;
+}
+/*+}*/
+/*[clearfix]*/
+.submissions-container {
+	-khtml-border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	/*+border-radius:10px;*/
+	background-color: #fafafa;
+	border-radius: 10px;
+	border: 1px solid #ddd;
+	display: block;
+	margin-bottom: 20px;
+	padding: 10px;
+	width: auto;
+}
+.submission-action {
+	-khtml-border-radius: 10px 0 0 10px;
+	-moz-border-radius: 10px 0 0 10px;
+	-webkit-border-radius: 10px 0 0 10px;
+	/*+border-radius:10px 0 0 10px;*/
+	background-color: #444;
+	border-radius: 10px 0 0 10px; 
+	border: 1px solid #000;
+	clear: left;
+	color: #fff;
+	display: block;
+	float: left;
+	margin-bottom: 5px;
+	padding: 10px;
+}
+.submission-result {
+	float: left;
+	margin: 10px 10px 0 0;
+}
+.submission-tools {
+	-khtml-border-radius: 0 10px 10px 0;
+	-moz-border-radius: 0 10px 10px 0;
+	-webkit-border-radius: 0 10px 10px 0;
+	/*+border-radius:0 10px 10px 0;*/
+	background-color: #fff;
+	border-radius: 0 10px 10px 0;
+	border: 1px solid #cfcfcf;
+	clear: right;
+	display: block;
+	float: left;
+	margin-bottom: 5px;
+	padding: 10px;
+}
+.event-management-table thead th {
+	background-color: #444;
+	color: #ffffff;
+}
+.event-management-table {
+	width: 100%;
+}
+.event-management-table tr:nth-child(odd) {
+	background-color: #f4f4f4;
+}
+.queue-link a {
+	-khtml-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	/*+border-radius:5px;*/
+	background-color: #444;
+	border-radius: 5px;
+	border: 1px solid #000;
+	color: #fff !important;
+	display: block;
+	font-weight: bold;
+	margin-bottom: 20px;
+	padding: 10px;
+	text-align: center;
+}
+/*styles for event page features*/
+.node-type-event .field-name-field-wf-queue-participants, .node-type-event .field-name-field-wf-queue-end-date {
+	-khtml-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	/*+border-radius:5px;*/
+	background-color: #444;
+	border-radius: 5px;
+	border: 1px solid #000;
+	color: #fff;
+	display: block;
+	font-weight: bold;
+	margin-bottom: 20px;
+	padding: 10px;
+	text-align: justify;
+}
