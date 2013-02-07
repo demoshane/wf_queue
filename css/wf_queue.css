@@ -2,12 +2,12 @@
 /*styles for managing events page*/
 /*+clearfix {*/
 .submissions-container:after, .node-type-event .field-name-field-wf-queue-description:after, .event-row:after {
+  clear: both;
   content: ".";
   display: block;
-  height: 0;
-  clear: both;
-  visibility: hidden;
   font-size: 0;
+  height: 0;
+  visibility: hidden;
 }
 .submissions-container, .node-type-event .field-name-field-wf-queue-description, .event-row {
   display: inline-block;
@@ -68,7 +68,7 @@
 }
 .event-management-table thead th {
   background-color: #444;
-  color: #ffffff;
+  color: #fff;
 }
 .event-management-table {
   width: 100%;
@@ -101,70 +101,143 @@
   background-color: #444;
   border: 1px solid #000;
   color: #fff;
-  display: block;
+  display: inline-block;
+  float: left;
+  clear: both;
   font-weight: bold;
   margin-bottom: 20px;
   padding: 10px;
   text-align: justify;
+  width: auto;
+  min-width: none;
+  max-width: none;
 }
-.node-type-event .field-name-field-wf-qeueue-event-image img {  -khtml-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  /*+border-radius:5px;*/
+.node-type-event h3.field-label {
+  /*+border-radius:5px 5px 0 0;*/
+  -moz-border-radius: 5px 5px 0 0;
+  -webkit-border-radius: 5px 5px 0 0;
+  -khtml-border-radius: 5px 5px 0 0;
+  border-radius: 5px 5px 0 0;
   background-color: #444;
-  border-radius: 5px;
   border: 1px solid #000;
+  border-bottom: none;
   color: #fff;
-  display: block;
+  display: inline-block;
+  float: left;
+  clear: both;
   font-weight: bold;
-  margin-bottom: 20px;
-  padding: 10px;
+  font-size: 12pt;
+  padding: 5px 10px;
   text-align: justify;
+  width: auto;
+  margin: 0;
+  position: relative;
+  top: 1px;
+}
+.node-type-event .field-name-field-wf-queue-end-date {
+  /*+border-radius:0 5px 5px;*/
+  -moz-border-radius: 0 5px 5px;
+  -webkit-border-radius: 0 5px 5px;
+  -khtml-border-radius: 0 5px 5px;
+  border-radius: 0 5px 5px;
+  border-radius: 0 5px 5px 5px;
+}
+.node-type-event .webform-component > label {
+  background-color: #444444;
+  clear: both;
+  color: #ffffff;
+  display: inline-block;
+  float: left;
+  margin-bottom: 5px;
+  margin-top: 20px;
+  padding: 5px 10px;
+}
+.node-type-event .webform-component input.form-radio {
+  margin-left: 10px;
+  position: relative;
+  top: 4px;
+}
+.node-type-event #webform-component-event-action label .form-required {
+  clear: none;
+  float: none;
+}
+.node-type-event .webform-component label.option {
+  clear: none;
+  float: left;
+  margin-left: 10px;
+}
+.node-type-event .webform-client-form {
+  clear: both;
+}
+.node-type-event .webform-component * {
   -khtml-border-radius: 5px;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   /*+border-radius:5px;*/
   border-radius: 5px;
-  border: 1px solid #444444;
+  clear: left;
+  float: left;
+  width: auto;
+}
+.node-type-event .webform-client-form .form-actions {
+  clear: both;
+  float: left;
+}
+.node-type-event .field-name-field-wf-qeueue-event-image img {
+  -khtml-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  /*+border-radius:5px;*/
+  background-color: #444;
+  border-radius: 5px;
+  border: 1px solid #444;
+  color: #fff;
+  display: block;
   float: right;
+  font-weight: bold;
+  margin-bottom: 20px;
   margin: 0 0 10px 10px;
+  text-align: justify;
 }
 /*[clearfix]*/.node-type-event .field-name-field-wf-queue-description {
 }
+.node-type-event h3.field-label {
+  /*[empty]font-size:;*/
+}
 /*event view*/
 .view-event-title a {
-  color: #000000 !important;
+  color: #000 !important;
   font-size: 16pt;
   font-weight: bold;
   text-transform: uppercase;
 }
 /*[clearfix]*/.event-row {
-  -khtml-border-radius: 5px;
+  /*+border-radius:5px;*/
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
-  /*+border-radius:5px;*/
-  background-color: #fafafa;
+  -khtml-border-radius: 5px;
   border-radius: 5px;
+  background-color: #fafafa;
   border: 1px solid #ededed;
   margin-bottom: 15px;
   padding: 10px;
 }
 .field-name-field-wf-qeueue-event-image img {
-  -khtml-border-radius: 5px;
+  /*+border-radius:5px;*/
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
-  /*+border-radius:5px;*/
+  -khtml-border-radius: 5px;
   border-radius: 5px;
   border: 1px solid #ededed;
   float: right;
 }
 .field-name-field-wf-queue-end-date, .field-name-field-wf-queue-participants, .view-event-signup a {
-  -khtml-border-radius: 0 0 5px 5px;
+  /*+border-radius:0 0 5px 5px;*/
   -moz-border-radius: 0 0 5px 5px;
   -webkit-border-radius: 0 0 5px 5px;
-  /*+border-radius:0 0 5px 5px;*/
-  background-color: #444;
+  -khtml-border-radius: 0 0 5px 5px;
   border-radius: 0 0 5px 5px;
+  background-color: #444;
   border: 1px solid #000;
   color: #fff !important;
   display: block;
@@ -180,15 +253,15 @@
   width: 200px;
 }
 .event-row > span {
-  -khtml-border-radius: 5px 5px 0 0;
+  /*+border-radius:5px 5px 0 0;*/
   -moz-border-radius: 5px 5px 0 0;
   -webkit-border-radius: 5px 5px 0 0;
-  /*+border-radius:5px 5px 0 0;*/
-  background-color: #ffffff;
-  border-bottom: none;
+  -khtml-border-radius: 5px 5px 0 0;
   border-radius: 5px 5px 0 0;
-  border: 1px solid #000000;
-  color: #000000;
+  background-color: #fff;
+  border-bottom: none;
+  border: 1px solid #000;
+  color: #000;
   display: inline-block;
   font-weight: bold;
   margin-top: 20px;
@@ -197,12 +270,12 @@
   padding: 5px 10px;
 }
 .view-event-signup span.field-content a {
-  -khtml-border-radius: 5px;
+  /*+border-radius:5px;*/
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
-  /*+border-radius:5px;*/
-  background-color: #22aa22;
+  -khtml-border-radius: 5px;
   border-radius: 5px;
+  background-color: #22aa22;
   clear: both;
   float: right;
   font-size: 16pt;
