@@ -81,7 +81,12 @@ function wf_queue_form($form, $form_state, $node) {
   }
 
   // Load queue
-  $queue = db_query("SELECT sid FROM {webform_submitted_data} WHERE nid = :nid AND data = :data", array(":nid" => $nid, ":data" => "queue"))->fetchAll();
+  $queue = db_select('webform_submitted_data', 'subs')
+                    ->fields('subs', array('sid'))
+                    ->condition('data', 'queue', '=')
+                    ->condition('nid', $nid, '=')
+                    ->execute()
+                    ->fetchAll();
 
   // Get first one in the queue
   if (!empty($queue)) {
