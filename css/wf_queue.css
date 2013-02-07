@@ -1,18 +1,18 @@
 /*[fmt]1a20-1a0a-3*/
 /*styles for managing events page*/
 /*+clearfix {*/
-.submissions-container:after, .node-type-event .field-name-field-wf-queue-description:after, .event-row:after {
-  clear: both;
+.submissions-container:after, .node-type-event .field-name-field-wf-queue-description:after, .event-row:after, .field-name-field-wf-queue-description:after {
   content: ".";
   display: block;
-  font-size: 0;
   height: 0;
+  clear: both;
   visibility: hidden;
+  font-size: 0;
 }
-.submissions-container, .node-type-event .field-name-field-wf-queue-description, .event-row {
+.submissions-container, .node-type-event .field-name-field-wf-queue-description, .event-row, .field-name-field-wf-queue-description {
   display: inline-block;
 }
-.submissions-container, .node-type-event .field-name-field-wf-queue-description, .event-row {
+.submissions-container, .node-type-event .field-name-field-wf-queue-description, .event-row, .field-name-field-wf-queue-description {
 /*\*/
   display: block;
 /**/
@@ -68,7 +68,7 @@
 }
 .event-management-table thead th {
   background-color: #444;
-  color: #fff;
+  color: #ffffff;
 }
 .event-management-table {
   width: 100%;
@@ -143,61 +143,67 @@
   border-radius: 0 5px 5px 5px;
 }
 .node-type-event .webform-component > label {
-  background-color: #444444;
-  clear: both;
-  color: #ffffff;
+  padding: 5px 10px;
   display: inline-block;
+  background-color: #444444;
+  color: #ffffff;
   float: left;
+  clear: both;
   margin-bottom: 5px;
   margin-top: 20px;
-  padding: 5px 10px;
 }
 .node-type-event .webform-component input.form-radio {
-  margin-left: 10px;
   position: relative;
   top: 4px;
+  margin-left: 10px;
 }
 .node-type-event #webform-component-event-action label .form-required {
   clear: none;
   float: none;
 }
 .node-type-event .webform-component label.option {
-  clear: none;
   float: left;
+  clear: none;
   margin-left: 10px;
 }
 .node-type-event .webform-client-form {
   clear: both;
 }
 .node-type-event .webform-component * {
-  -khtml-border-radius: 5px;
+  width: auto;
+  float: left;
+  clear: left;
+  /*+border-radius:5px;*/
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
-  /*+border-radius:5px;*/
+  -khtml-border-radius: 5px;
   border-radius: 5px;
-  clear: left;
-  float: left;
-  width: auto;
 }
 .node-type-event .webform-client-form .form-actions {
-  clear: both;
   float: left;
+  clear: both;
 }
 .node-type-event .field-name-field-wf-qeueue-event-image img {
-  -khtml-border-radius: 5px;
+  /*+border-radius:5px;*/
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
-  /*+border-radius:5px;*/
-  background-color: #444;
+  -khtml-border-radius: 5px;
   border-radius: 5px;
-  border: 1px solid #444;
+  background-color: #444;
+  border: 1px solid #000;
   color: #fff;
   display: block;
-  float: right;
   font-weight: bold;
   margin-bottom: 20px;
-  margin: 0 0 10px 10px;
   text-align: justify;
+  /*+border-radius:5px;*/
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -khtml-border-radius: 5px;
+  border-radius: 5px;
+  border: 1px solid #444444;
+  float: right;
+  margin: 0 0 10px 10px;
 }
 /*[clearfix]*/.node-type-event .field-name-field-wf-queue-description {
 }
@@ -206,7 +212,7 @@
 }
 /*event view*/
 .view-event-title a {
-  color: #000 !important;
+  color: #000000 !important;
   font-size: 16pt;
   font-weight: bold;
   text-transform: uppercase;
@@ -252,16 +258,18 @@
   text-transform: uppercase;
   width: 200px;
 }
+/*[clearfix]*/.field-name-field-wf-queue-description {
+}
 .event-row > span {
   /*+border-radius:5px 5px 0 0;*/
   -moz-border-radius: 5px 5px 0 0;
   -webkit-border-radius: 5px 5px 0 0;
   -khtml-border-radius: 5px 5px 0 0;
   border-radius: 5px 5px 0 0;
-  background-color: #fff;
+  background-color: #ffffff;
   border-bottom: none;
-  border: 1px solid #000;
-  color: #000;
+  border: 1px solid #000000;
+  color: #000000;
   display: inline-block;
   font-weight: bold;
   margin-top: 20px;
