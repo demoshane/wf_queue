@@ -67,34 +67,31 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
       $participants = $form['#node']->field_wf_queue_participants['und'][0]['value'];
     }
 
-    // Check webform module exists and count possible queue submissions on this form.
-    if (module_exists('webform') && isset($form['submitted']['event_action'])) {
-      $queue = 0;
-      $queue = db_query("SELECT COUNT(nid) as count FROM {webform_submitted_data} WHERE nid = :nid AND data = :data", array(":nid" => $nid, ":data" => "queue"))->fetchAll();
-      $queue = $queue[0]->count;
-    }
-    else {
-      $queue = 0;
-    }
-
-    // Check webform module exists and count possible queue submissions on this form.
-    if (module_exists('webform') && isset($form['submitted']['event_action'])) {
-      $cancel = 0;
-      $cancel = db_query("SELECT COUNT(nid) as count FROM {webform_submitted_data} WHERE nid = :nid AND data = :data", array(":nid" => $nid, ":data" => "cancel"))->fetchAll();
-      $cancel = $cancel[0]->count;
-    }
-    else {
-      $cancel = 0;
-    }
-
-    // Check webform module exists and count signup submissions on this form. Check also to see if event_action has been deleted. Then just count submissions.
-    if (module_exists('webform') && isset($form['submitted']['event_action'])) {
-      $dbresult = db_query("SELECT COUNT(nid) as count FROM {webform_submitted_data} WHERE nid = :nid AND data = :data", array(":nid" => $nid, ":data" => "signup"))->fetchAll();
-      $dbresult = $dbresult[0]->count;
-    }
-    elseif(module_exists('webform')) {
-      $dbresult = db_query("SELECT COUNT(nid) as count FROM {webform_submitted_data} WHERE nid = :nid", array(":nid" => $nid))->fetchAll();
-      $dbresult = webform_get_submission_count($nid);
+    // Get all results.
+    $actions = db_select('webform_submitted_data', 'data')
+                 ->fields('data', array('data'))
+                 ->condition('data.nid', $nid, '=')
+                 ->condition('data.data', array('queue', 'cancel', 'signup'), 'IN')
+                 ->execute()
+                 ->fetchAll();
+    // Setup vars
+    $queue = 0;
+    $cancel = 0;
+    $dbresult = 0;
+    foreach ($actions as $action) {
+      switch($action->data) {
+        case 'queue':
+          $queue++;
+          break;
+        case 'cancel':
+          $cancel++;
+          break;
+        case 'signup':
+          $dbresult++;
+          break;
+        default:
+          break;
+      }
     }
 
     // PARTICIPATION LIMIT FUNCTIONALITY
@@ -224,8 +221,12 @@ function wf_queue_node_insert($node) {
     module_load_include('inc', 'webform', 'includes/webform.components');
 
     // Check if component exists by doing database query and checking for cid = 99 on this node. TODO: This check is maybe too failsafe. Cid can propably be set to 1
-    $dbresultwf = db_query("SELECT * FROM {webform_component} WHERE nid = :nid AND cid = :cid", array(":nid" => $node->nid, ":cid" => 99))->fetchField();
-
+    $dbresultwf = db_select('webform_component', 'comps')
+                      ->fields('comps')
+                      ->condition('cid', 99, '=')
+                      ->condition('nid', $node->nid, '=')
+                      ->execute()
+                      ->fetchAll();
     // It doesn't exists, create it.
     if(!$dbresultwf) {
       $component = array(
@@ -258,25 +259,19 @@ function wf_queue_node_insert($node) {
   */
 function wf_queue_webform_submission_delete($node, $submission) {
   // TODO: DO CONTENT TYPE CHECK!
-  // Get participant count
-  $dbresult = db_query("SELECT COUNT(nid) as count FROM {webform_submitted_data} WHERE nid = :nid AND data = :data", array(":nid" => $node->nid, ":data" => "signup"))->fetchAll();
-  $dbresult = $dbresult[0]->count;
-  // Check if there is someone in queue
-  $queue = db_query("SELECT COUNT(nid) as count FROM {webform_submitted_data} WHERE nid = :nid AND data = :data", array(":nid" => $node->nid, ":data" => "queue"))->fetchAll();
-  $queue = $queue[0]->count;
-  // Get participation limit
-  $participants = $node->field_wf_queue_participants['und'][0]['value'];
   // Get sid of the first in the queue
   // If there is someone in the queue and there is free space, let event moderator know about it.
-  $queueFirstSid = db_query("SELECT sid FROM {webform_submitted_data} WHERE nid = :nid AND data = :data", array(":nid" => $node->nid, ":data" => "queue"))->fetchAll();
+  $queueFirstSid = db_select('webform_submitted_data', 'queue')
+                    ->fields('queue', array('sid'))
+                    ->condition('data', 'queue', '=')
+                    ->condition('nid', $node->nid, '=')
+                    ->execute()
+                    ->fetchAll();
   $firstQueued = array();
   // There is someone in queue
   if (!empty($queueFirstSid)) {
     $firstQueued = min($queueFirstSid);
     $firstQueued = $firstQueued->sid;
-  }
-  // Notify moderator and provide link to first in queue aka the one with lowest sid and status queue.
-  if ($dbresult <= $participants && !empty($firstQueued)) {
     unset($_SESSION['messages']);
     drupal_set_message('You have a person waiting in queue. You might want to update him/her to signed up status <a href="submission/'.$firstQueued.'/edit?destination=node/'.$node->nid.'/manage-event"">here</a>');
   }
