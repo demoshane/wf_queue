@@ -25,19 +25,19 @@ foreach($variables['submissions'] as $submission) {
 echo '<div class="queue-link">' . 
      $variables['queue'] . 
      '</div>' . 
-     t('<h2 class="cancellations-header">Cancellations</h2>')
+     t('<h2 class="cancellations-header">Cancellations</h2>') . 
+     t('<p>Notice: Delete cancellation last.</p>') 
      ;
 $submissions = array();
 
 // Loop users that have cancellations
-foreach ($variables['cancel'] as $cancelUser) {
-  $uid = $cancelUser['uid'];
-  $user = user_load($uid);
+foreach ($variables['cancel'] as $name => $cancelUser) {
   // Build markup
+  $uid = $cancelUser['uid'];
   echo '<div class="submissions-container"><div class="cancel-user-subheader"><b>' . 
        t('User ') . 
-       l($user->name, 'user/' . $uid) . ',</b></div><div class="cancel-submissions">' . 
-       ' has canceled and has the following submissions:'
+       l($name, 'user/' . $uid) . ',</b></div><div class="cancel-submissions">' . 
+       ' has canceled and has the following submissions:<br/>'
        ;
   $submissions = $cancelUser['submissions'];
 
@@ -50,7 +50,7 @@ foreach ($variables['cancel'] as $cancelUser) {
       echo '<div class="submission-result"><div class="submission-action">' . 
             t(ucfirst($action)) . 
             ':</div><div class="submission-tools"> ' . 
-            l(t('Delete'), 'node/' . $nid . '/submission/' . $sid . '/delete?destination=node/' . $nid . '/manage-event') . 
+            l(t('Delete'), 'node/' . $nid . '/submission/' . $sid . '/delete', array('query' => drupal_get_destination())) . 
             ' | ' . 
             l(t('View'), 'node/' . $nid . '/submission/' . $sid) . '</div></div>'
             ;
