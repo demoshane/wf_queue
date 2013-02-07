@@ -10,6 +10,97 @@
 function wf_queue_field_default_fields() {
   $fields = array();
 
+  // Exported field: 'node-event-field_wf_qeueue_event_image'.
+  $fields['node-event-field_wf_qeueue_event_image'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_wf_qeueue_event_image',
+      'foreign keys' => array(
+        'fid' => array(
+          'columns' => array(
+            'fid' => 'fid',
+          ),
+          'table' => 'file_managed',
+        ),
+      ),
+      'indexes' => array(
+        'fid' => array(
+          0 => 'fid',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'image',
+      'settings' => array(
+        'default_image' => 0,
+        'uri_scheme' => 'public',
+      ),
+      'translatable' => '0',
+      'type' => 'image',
+    ),
+    'field_instance' => array(
+      'bundle' => 'event',
+      'deleted' => '0',
+      'description' => 'This will scale to 250px width',
+      'display' => array(
+        'default' => array(
+          'label' => 'hidden',
+          'module' => 'image',
+          'settings' => array(
+            'image_link' => '',
+            'image_style' => 'wf_queue_event',
+          ),
+          'type' => 'image',
+          'weight' => '0',
+        ),
+        'full' => array(
+          'label' => 'hidden',
+          'module' => 'image',
+          'settings' => array(
+            'image_link' => '',
+            'image_style' => 'wf_queue_event',
+          ),
+          'type' => 'image',
+          'weight' => '0',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'fences_wrapper' => 'figure',
+      'field_name' => 'field_wf_qeueue_event_image',
+      'label' => 'Event image',
+      'required' => 0,
+      'settings' => array(
+        'alt_field' => 1,
+        'default_image' => 0,
+        'file_directory' => '',
+        'file_extensions' => 'png gif jpg jpeg',
+        'max_filesize' => '',
+        'max_resolution' => '',
+        'min_resolution' => '',
+        'title_field' => 1,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'image',
+        'settings' => array(
+          'preview_image_style' => 'wf_queue_event',
+          'progress_indicator' => 'throbber',
+        ),
+        'type' => 'image_image',
+        'weight' => '2',
+      ),
+    ),
+  );
+
   // Exported field: 'node-event-field_wf_queue_description'.
   $fields['node-event-field_wf_queue_description'] = array(
     'field_config' => array(
@@ -48,14 +139,14 @@ function wf_queue_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '0',
+          'weight' => '1',
         ),
         'full' => array(
           'label' => 'hidden',
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '0',
+          'weight' => '1',
         ),
         'teaser' => array(
           'label' => 'hidden',
@@ -85,7 +176,7 @@ function wf_queue_field_default_fields() {
           'summary_rows' => 5,
         ),
         'type' => 'text_textarea_with_summary',
-        'weight' => '1',
+        'weight' => '3',
       ),
     ),
   );
@@ -136,7 +227,7 @@ function wf_queue_field_default_fields() {
             'multiple_to' => '',
           ),
           'type' => 'date_default',
-          'weight' => '1',
+          'weight' => '2',
         ),
         'full' => array(
           'label' => 'above',
@@ -149,7 +240,7 @@ function wf_queue_field_default_fields() {
             'multiple_to' => '',
           ),
           'type' => 'date_default',
-          'weight' => '1',
+          'weight' => '2',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -182,7 +273,7 @@ function wf_queue_field_default_fields() {
           'year_range' => '-3:+3',
         ),
         'type' => 'date_popup',
-        'weight' => '4',
+        'weight' => '6',
       ),
     ),
   );
@@ -219,7 +310,7 @@ function wf_queue_field_default_fields() {
             'thousand_separator' => '',
           ),
           'type' => 'number_integer',
-          'weight' => '2',
+          'weight' => '3',
         ),
         'full' => array(
           'label' => 'hidden',
@@ -231,7 +322,7 @@ function wf_queue_field_default_fields() {
             'thousand_separator' => '',
           ),
           'type' => 'number_integer',
-          'weight' => '2',
+          'weight' => '3',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -257,7 +348,7 @@ function wf_queue_field_default_fields() {
         'module' => 'number',
         'settings' => array(),
         'type' => 'number',
-        'weight' => '2',
+        'weight' => '4',
       ),
     ),
   );
@@ -266,7 +357,9 @@ function wf_queue_field_default_fields() {
   // Included for use with string extractors like potx.
   t('Description');
   t('Due date');
+  t('Event image');
   t('Participants');
+  t('This will scale to 250px width');
 
   return $fields;
 }

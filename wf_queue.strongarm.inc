@@ -84,20 +84,20 @@ function wf_queue_strongarm() {
     'extra_fields' => array(
       'form' => array(
         'path' => array(
-          'weight' => '3',
+          'weight' => '5',
         ),
         'title' => array(
-          'weight' => '0',
+          'weight' => '1',
         ),
       ),
       'display' => array(
         'webform' => array(
           'default' => array(
-            'weight' => '3',
+            'weight' => '4',
             'visible' => TRUE,
           ),
           'full' => array(
-            'weight' => '3',
+            'weight' => '4',
             'visible' => TRUE,
           ),
           'teaser' => array(
