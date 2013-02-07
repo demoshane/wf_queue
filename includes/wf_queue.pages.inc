@@ -96,7 +96,12 @@ function wf_queue_form($form, $form_state, $node) {
 
   // Users that have cancelled their participation
   // Check users that have also cancelled status submission(s).
-  $userCancel = db_query("SELECT sid FROM {webform_submitted_data} WHERE data = :cancel AND nid = :nid", array(":cancel" => "cancel", ":nid" => $nid))->fetchAll();
+  $userCancel = db_select('webform_submitted_data', 'subs')
+                    ->fields('subs', array('sid'))
+                    ->condition('data', 'cancel', '=')
+                    ->condition('nid', $nid, '=')
+                    ->execute()
+                    ->fetchAll();
 
   // Loop cancellations
   $cancels = array();
