@@ -321,8 +321,8 @@ function wf_queue_views_default_views() {
   $handler->display->display_options['menu']['title'] = 'Events';
   $handler->display->display_options['menu']['name'] = 'main-menu';
 
-  /* Display: Block */
-  $handler = $view->new_display('block', 'Block', 'block_1');
+  /* Display: Search and manage */
+  $handler = $view->new_display('block', 'Search and manage', 'block_1');
   $handler->display->display_options['defaults']['use_ajax'] = FALSE;
   $handler->display->display_options['use_ajax'] = TRUE;
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
@@ -361,7 +361,7 @@ function wf_queue_views_default_views() {
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['label'] = 'Manage';
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<a href="node/[nid]/webform-results/table">Manage</a>';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<a href="node/[nid]/manage-event">Manage</a>';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
@@ -436,9 +436,9 @@ function wf_queue_views_default_views() {
     t('Title'),
     t('Event listing'),
     t('Administrative tools'),
-    t('Block'),
+    t('Search and manage'),
     t('Manage'),
-    t('<a href="node/[nid]/webform-results/table">Manage</a>'),
+    t('<a href="node/[nid]/manage-event">Manage</a>'),
     t('Event title'),
   );
   $export['display_events'] = $view;

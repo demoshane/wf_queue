@@ -126,7 +126,7 @@ function wf_queue_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'inline',
+          'label' => 'above',
           'module' => 'date',
           'settings' => array(
             'format_type' => 'medium',
@@ -136,20 +136,20 @@ function wf_queue_field_default_fields() {
             'multiple_to' => '',
           ),
           'type' => 'date_default',
-          'weight' => '2',
+          'weight' => '1',
         ),
         'full' => array(
-          'label' => 'inline',
+          'label' => 'above',
           'module' => 'date',
           'settings' => array(
-            'format_type' => 'long',
+            'format_type' => 'medium',
             'fromto' => 'both',
             'multiple_from' => '',
             'multiple_number' => '',
             'multiple_to' => '',
           ),
           'type' => 'date_default',
-          'weight' => '2',
+          'weight' => '1',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -210,7 +210,7 @@ function wf_queue_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'inline',
+          'label' => 'hidden',
           'module' => 'number',
           'settings' => array(
             'decimal_separator' => '.',
@@ -219,10 +219,10 @@ function wf_queue_field_default_fields() {
             'thousand_separator' => '',
           ),
           'type' => 'number_integer',
-          'weight' => '1',
+          'weight' => '2',
         ),
         'full' => array(
-          'label' => 'inline',
+          'label' => 'hidden',
           'module' => 'number',
           'settings' => array(
             'decimal_separator' => '.',
@@ -231,7 +231,7 @@ function wf_queue_field_default_fields() {
             'thousand_separator' => '',
           ),
           'type' => 'number_integer',
-          'weight' => '1',
+          'weight' => '2',
         ),
         'teaser' => array(
           'label' => 'above',
