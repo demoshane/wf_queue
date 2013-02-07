@@ -89,6 +89,7 @@ function wf_queue_form($form, $form_state, $node) {
   }
 
   // Create link for easy access.
+  $queuelink = "";
   if (!empty($firstQueued)) {
     $queuelink = l(t('View first submission in the queue'), 'node/' . $nid . '/submission/' . $firstQueued . '/edit',  array('query' => drupal_get_destination()));
   }
