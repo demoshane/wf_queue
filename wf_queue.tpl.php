@@ -34,9 +34,9 @@ $submissions = array();
 foreach ($variables['cancel'] as $name => $cancelUser) {
   // Build markup
   $uid = $cancelUser['uid'];
-  echo '<div class="submissions-container"><div class="cancel-user-subheader"><b>' . 
+  echo '<div class="submissions-container"><div class="cancel-user-subheader"><strong>' . 
        t('User ') . 
-       l($name, 'user/' . $uid) . ',</b></div><div class="cancel-submissions">' . 
+       l($name, 'user/' . $uid) . ',</strong></div><div class="cancel-submissions">' . 
        ' has canceled and has the following submissions:<br/>'
        ;
   $submissions = $cancelUser['submissions'];
