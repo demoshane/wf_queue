@@ -51,7 +51,7 @@ foreach ($variables['cancel'] as $name => $cancelUser) {
       $action = $submissionData['action'];
       // Build markup
       print '<div class="submission-result"><div class="submission-action">' . 
-            t(ucfirst($action)) . 
+            t('@action', array('@action' => ucfirst($action))) . 
             ':</div><div class="submission-tools"> ' . 
             l(t('Delete'), 'node/' . $nid . '/submission/' . $sid . '/delete', array('query' => drupal_get_destination())) . 
             ' | ' . 
