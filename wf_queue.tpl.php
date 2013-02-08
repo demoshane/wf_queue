@@ -23,13 +23,13 @@ foreach($variables['submissions'] as $submission) {
 <?php
 // Build cancellation queue link and header for cancellations
 print '<div class="queue-link">' . 
-     $variables['queue'] . 
-     '</div><h2 class="cancellations-header">' . 
-     t('Cancellations') . 
-     '</h2><p>' . 
-     t('Notice: Delete cancellation last.') . 
-     '</p>'
-     ;
+      $variables['queue'] . 
+      '</div><h2 class="cancellations-header">' . 
+      t('Cancellations') . 
+      '</h2><p>' . 
+      t('Notice: Delete cancellation last.') . 
+      '</p>'
+      ;
 $submissions = array();
 
 // Loop users that have cancellations
@@ -37,11 +37,11 @@ foreach ($variables['cancel'] as $name => $cancelUser) {
   // Build markup
   $uid = $cancelUser['uid'];
   print '<div class="submissions-container"><div class="cancel-user-subheader"><strong>' . 
-       t('User ') . 
-       l($name, 'user/' . $uid) . ',</strong></div><div class="cancel-submissions">' . 
-       ' ' . t('has canceled and has the following submissions:') . 
-       '<br/>'
-       ;
+        t('User ') . 
+        l($name, 'user/' . $uid) . ',</strong></div><div class="cancel-submissions">' . 
+        ' ' . t('has canceled and has the following submissions:') . 
+        '<br/>'
+        ;
   $submissions = $cancelUser['submissions'];
 
   // Loop all submissions for user that has canceled their participation. For easy editing and grouping for admins.
