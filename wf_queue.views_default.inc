@@ -19,7 +19,7 @@ function wf_queue_views_default_views() {
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
-
+  
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Events';
@@ -206,7 +206,7 @@ function wf_queue_views_default_views() {
   $handler->display->display_options['filters']['title']['expose']['label'] = 'Title';
   $handler->display->display_options['filters']['title']['expose']['operator'] = 'title_op';
   $handler->display->display_options['filters']['title']['expose']['identifier'] = 'title';
-
+  
   /* Display: Event listing */
   $handler = $view->new_display('page', 'Event listing', 'events_listing_page');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
@@ -275,12 +275,18 @@ function wf_queue_views_default_views() {
   $handler->display->display_options['fields']['field_wf_queue_description']['table'] = 'field_data_field_wf_queue_description';
   $handler->display->display_options['fields']['field_wf_queue_description']['field'] = 'field_wf_queue_description';
   $handler->display->display_options['fields']['field_wf_queue_description']['label'] = '';
+  $handler->display->display_options['fields']['field_wf_queue_description']['alter']['trim_whitespace'] = TRUE;
+  $handler->display->display_options['fields']['field_wf_queue_description']['alter']['max_length'] = '800';
+  $handler->display->display_options['fields']['field_wf_queue_description']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['field_wf_queue_description']['element_type'] = '0';
   $handler->display->display_options['fields']['field_wf_queue_description']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_wf_queue_description']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['field_wf_queue_description']['element_wrapper_class'] = 'view-event-description';
   $handler->display->display_options['fields']['field_wf_queue_description']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_wf_queue_description']['type'] = 'text_plain';
+  $handler->display->display_options['fields']['field_wf_queue_description']['type'] = 'text_trimmed';
+  $handler->display->display_options['fields']['field_wf_queue_description']['settings'] = array(
+    'trim_length' => '800',
+  );
   $handler->display->display_options['fields']['field_wf_queue_description']['field_api_classes'] = TRUE;
   /* Field: Content: Link */
   $handler->display->display_options['fields']['view_node']['id'] = 'view_node';
@@ -371,7 +377,7 @@ function wf_queue_views_default_views() {
   $handler->display->display_options['menu']['type'] = 'normal';
   $handler->display->display_options['menu']['title'] = 'Events';
   $handler->display->display_options['menu']['name'] = 'main-menu';
-
+  
   /* Display: Search and manage */
   $handler = $view->new_display('block', 'Search and manage', 'manage_event_block');
   $handler->display->display_options['defaults']['title'] = FALSE;
@@ -391,12 +397,37 @@ function wf_queue_views_default_views() {
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
-  $handler->display->display_options['style_plugin'] = 'default';
-  $handler->display->display_options['style_options']['default_row_class'] = FALSE;
-  $handler->display->display_options['style_options']['row_class_special'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'table';
+  $handler->display->display_options['style_options']['columns'] = array(
+    'nid' => 'nid',
+    'title' => 'title',
+    'nothing' => 'nothing',
+  );
+  $handler->display->display_options['style_options']['default'] = '-1';
+  $handler->display->display_options['style_options']['info'] = array(
+    'nid' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'title' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'nothing' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+  );
+  $handler->display->display_options['style_options']['sticky'] = TRUE;
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
-  $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['relationships'] = FALSE;
   /* Relationship: Content: Webform submission */
@@ -417,16 +448,18 @@ function wf_queue_views_default_views() {
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['label'] = 'Event name';
+  $handler->display->display_options['fields']['title']['label'] = 'Event';
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['element_wrapper_class'] = 'view-event-manage-title';
   /* Field: Global: Custom text */
   $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
-  $handler->display->display_options['fields']['nothing']['label'] = 'Manage';
+  $handler->display->display_options['fields']['nothing']['label'] = '';
   $handler->display->display_options['fields']['nothing']['alter']['text'] = '<a href="node/[nid]/manage-event">Manage</a>';
+  $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['nothing']['element_wrapper_class'] = 'view-manage-event';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
@@ -508,7 +541,7 @@ function wf_queue_views_default_views() {
     t('Search for events'),
     t('Search and manage'),
     t('Manage events'),
-    t('Manage'),
+    t('Event'),
     t('<a href="node/[nid]/manage-event">Manage</a>'),
     t('Manage and search events'),
     t('Start typing the event title'),
