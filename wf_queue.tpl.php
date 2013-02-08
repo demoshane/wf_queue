@@ -3,7 +3,7 @@
 <?php
 // Build headers
 foreach($variables['headers'] as $header) {
-  echo "<th>" . $header . "</th>";
+  print "<th>" . $header . "</th>";
 }
 ?>
 </tr></thead>
@@ -11,18 +11,18 @@ foreach($variables['headers'] as $header) {
 <?php
 // Loop submission result data
 foreach($variables['submissions'] as $submission) {
-  echo "<tr>";
+  print "<tr>";
   foreach($submission['fields'] as $field) {
-    echo "<td>" . $field . "</td>";
+    print "<td>" . $field . "</td>";
   }
-  echo "</tr>";
+  print "</tr>";
 }
 ?>
 </tbody>
 </table>
 <?php
 // Build cancellation queue link and header for cancellations
-echo '<div class="queue-link">' . 
+print '<div class="queue-link">' . 
      $variables['queue'] . 
      '</div>' . 
      t('<h2 class="cancellations-header">Cancellations</h2>') . 
@@ -34,7 +34,7 @@ $submissions = array();
 foreach ($variables['cancel'] as $name => $cancelUser) {
   // Build markup
   $uid = $cancelUser['uid'];
-  echo '<div class="submissions-container"><div class="cancel-user-subheader"><strong>' . 
+  print '<div class="submissions-container"><div class="cancel-user-subheader"><strong>' . 
        t('User ') . 
        l($name, 'user/' . $uid) . ',</strong></div><div class="cancel-submissions">' . 
        ' has canceled and has the following submissions:<br/>'
@@ -47,7 +47,7 @@ foreach ($variables['cancel'] as $name => $cancelUser) {
       $nid = $submissionData['nid'];
       $action = $submissionData['action'];
       // Build markup
-      echo '<div class="submission-result"><div class="submission-action">' . 
+      print '<div class="submission-result"><div class="submission-action">' . 
             t(ucfirst($action)) . 
             ':</div><div class="submission-tools"> ' . 
             l(t('Delete'), 'node/' . $nid . '/submission/' . $sid . '/delete', array('query' => drupal_get_destination())) . 
@@ -55,6 +55,6 @@ foreach ($variables['cancel'] as $name => $cancelUser) {
             l(t('View'), 'node/' . $nid . '/submission/' . $sid) . '</div></div>'
             ;
   }
-  echo '</div></div>';
+  print '</div></div>';
 }
 ?>
