@@ -19,7 +19,7 @@ function wf_queue_views_default_views() {
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
-  
+
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Events';
@@ -206,7 +206,7 @@ function wf_queue_views_default_views() {
   $handler->display->display_options['filters']['title']['expose']['label'] = 'Title';
   $handler->display->display_options['filters']['title']['expose']['operator'] = 'title_op';
   $handler->display->display_options['filters']['title']['expose']['identifier'] = 'title';
-  
+
   /* Display: Event listing */
   $handler = $view->new_display('page', 'Event listing', 'events_listing_page');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
@@ -377,7 +377,7 @@ function wf_queue_views_default_views() {
   $handler->display->display_options['menu']['type'] = 'normal';
   $handler->display->display_options['menu']['title'] = 'Events';
   $handler->display->display_options['menu']['name'] = 'main-menu';
-  
+
   /* Display: Search and manage */
   $handler = $view->new_display('block', 'Search and manage', 'manage_event_block');
   $handler->display->display_options['defaults']['title'] = FALSE;
