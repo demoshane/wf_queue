@@ -24,9 +24,11 @@ foreach($variables['submissions'] as $submission) {
 // Build cancellation queue link and header for cancellations
 print '<div class="queue-link">' . 
      $variables['queue'] . 
-     '</div>' . 
-     t('<h2 class="cancellations-header">Cancellations</h2>') . 
-     t('<p>Notice: Delete cancellation last.</p>') 
+     '</div><> h2 class="cancellations-header"' . 
+     t('Cancellations') . 
+     '<h2><p>' . 
+     t('Notice: Delete cancellation last.') . 
+     '</p>'
      ;
 $submissions = array();
 
@@ -37,7 +39,8 @@ foreach ($variables['cancel'] as $name => $cancelUser) {
   print '<div class="submissions-container"><div class="cancel-user-subheader"><strong>' . 
        t('User ') . 
        l($name, 'user/' . $uid) . ',</strong></div><div class="cancel-submissions">' . 
-       ' has canceled and has the following submissions:<br/>'
+       ' ' . t('has canceled and has the following submissions:') . 
+       '<br/>'
        ;
   $submissions = $cancelUser['submissions'];
 

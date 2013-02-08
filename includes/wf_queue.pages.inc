@@ -151,7 +151,7 @@ function _wf_queue_cancel_submissions($nid, $uid) {
   foreach ($otherSubmissions as $submissionData) {
     // Load submission data
     $data = webform_get_submission($nid, $submissionData->sid);
-    // Build markup
+    // Loop data
     if (isset($data->data[99][0])) {
       $return[$i]['action'] = $data->data[99][0];
     }

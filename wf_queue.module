@@ -51,7 +51,7 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
   }
   else
   {
-    $nid ="";
+    $nid = "";
   }
 
   // Return current path
@@ -63,6 +63,7 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
   if ($nodetype == "event" && $path == $check) {
     // BASE INFORMATION SETUP
     // Get Participant limit
+    $participants = "";
     if (isset($form['#node']->field_wf_queue_participants['und'][0]['value'])) {
       $participants = $form['#node']->field_wf_queue_participants['und'][0]['value'];
     }
