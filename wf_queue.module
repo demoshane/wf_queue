@@ -71,23 +71,25 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
     $actions = db_select('webform_submitted_data', 'data')
                  ->fields('data', array('data'))
                  ->condition('data.nid', $nid, '=')
-                 ->condition('data.data', array('queue', 'cancel', 'signup'), 'IN')
-                 ->execute()
-                 ->fetchAll();
+                 ->condition('data.data', array('signup', 'cancel', 'queue'), 'IN');
+    $actions->addExpression('COUNT(nid)', 'count');
+    $actions->groupBy('data.data');
+    $result = $actions->execute();
+    
     // Setup vars
     $queue = 0;
     $cancel = 0;
     $dbresult = 0;
-    foreach ($actions as $action) {
-      switch($action->data) {
+    while ($action = $result->fetchAssoc()) {
+      switch($action['data']) {
         case 'queue':
-          $queue++;
+          $queue = $action['count'];
           break;
         case 'cancel':
-          $cancel++;
+          $cancel = $action['count'];
           break;
         case 'signup':
-          $dbresult++;
+          $dbresult = $action['count'];
           break;
         default:
           break;
