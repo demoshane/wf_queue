@@ -55,14 +55,10 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
   // Check that we are dealing with webform with queue
   $nodetype = $form['#node']->type;
   // Get nid
+  $nid = "";
   if (!empty($form['#node']->nid)) {
     $nid = $form['#node']->nid;
   }
-  else
-  {
-    $nid = "";
-  }
-
   // Return current path
   $path = current_path();
   // Assign check for node view
@@ -139,12 +135,9 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
     // Let's check if ending date has passed and disable submission
     if (!user_access('view expired events')) {
       // Convert ending date to epoch time stamp for comparison. Field must have no timezone for this to work
+      $endDate = "";
       if (isset($form['#node']->field_wf_queue_end_date['und'][0]['value'])) {
         $endDate = strtotime($form['#node']->field_wf_queue_end_date['und'][0]['value']);
-      }
-      else
-      {
-        $endDate = "";
       }
       // Get current date and set variable for comparison
       $today = getdate();
