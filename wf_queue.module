@@ -63,15 +63,16 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
   $path = current_path();
   // Assign check for node view
   $check = "node/" . $nid;
-
+  $node = $node = $form['#node'];
   // Check we have node of type event and we are on node view. 
   // We don't want form handling to trigger on edit or add pages.
   if ($nodetype == "event" && $path == $check) {
     // BASE INFORMATION SETUP
     // Get Participant limit
     $participants = "";
-    if (isset($form['#node']->field_wf_queue_participants['und'][0]['value'])) {
-      $participants = $form['#node']->field_wf_queue_participants['und'][0]['value'];
+    $participantField = field_view_field('node', $node, 'field_wf_queue_participants');
+    if (isset($participantField['#items'][0]['value'])) {
+      $participants = $participantField['#items'][0]['value'];
     }
 
     // Get all results.
@@ -135,9 +136,10 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
     // Let's check if ending date has passed and disable submission
     if (!user_access('view expired events')) {
       // Convert ending date to epoch time stamp for comparison. Field must have no timezone for this to work
+      $endDateField = field_view_field('node', $node, 'field_wf_queue_end_date');
       $endDate = "";
-      if (isset($form['#node']->field_wf_queue_end_date['und'][0]['value'])) {
-        $endDate = strtotime($form['#node']->field_wf_queue_end_date['und'][0]['value']);
+      if (isset($endDateField['#items'][0]['value'])) {
+        $endDate = strtotime($endDateField['#items'][0]['value']);
       }
       // Get current date and set variable for comparison
       $today = getdate();
@@ -179,7 +181,7 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
 	  }
 
 	  // Move information to markup
-    if (isset($form['#node']->field_wf_queue_participants['und'][0]['value'])) {
+    if (isset($participantField['#items'][0]['value'])) {
       $form['#node']->content['field_wf_queue_participants'][0]['#markup'] = $currentParticipants;
     }
 	  // VALIDATION
@@ -188,7 +190,7 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
   }
   // FORM PROTECTION
   // Let's give a event_action -compononent a slight protection.
-  if ($form['form_token']['#id'] == 'edit-webform-components-form-form-token') {
+  if (isset($form['form_token']['#id']) && $form['form_token']['#id'] == 'edit-webform-components-form-form-token') {
     unset($form['#node']->webform['components']['99']);
     // Instant diet to also remove lingering weight
     unset($form['components']['99']);
@@ -200,11 +202,16 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
   */
 function wf_queue_validate($form) {
   // Declare nid and participant limit.
-  if (!empty($form['#node']->nid)) {
-    $nid = $form['#node']->nid;
+  $node = $node = $form['#node'];
+  // Get Participant limit
+  $participants = "";
+  $participantField = field_view_field('node', $node, 'field_wf_queue_participants');
+
+  if (!empty($node->nid)) {
+    $nid = $node->nid;
   }
-  if (isset($form['#node']->field_wf_queue_participants['und'][0]['value'])) {
-    $participants = $form['#node']->field_wf_queue_participants['und'][0]['value'];
+  if (isset($participantField['#items'][0]['value'])) {
+    $participants = $participantField['#items'][0]['value'];
   }
 
   // Count participants at the moment submit is launched.
