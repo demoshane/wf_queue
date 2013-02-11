@@ -1,12 +1,14 @@
 <table class="event-management-table">
-<thead><tr>
-<?php
-// Build headers
-foreach($variables['headers'] as $header) {
-  print "<th>" . $header . "</th>";
-}
-?>
-</tr></thead>
+<thead>
+  <tr>
+  <?php
+  // Build headers
+  foreach($variables['headers'] as $header) {
+    print "<th>" . $header . "</th>";
+  }
+  ?>
+  </tr>
+</thead>
 <tbody>
 <?php
 // Loop submission result data
@@ -46,17 +48,17 @@ foreach ($variables['cancel'] as $name => $cancelUser) {
 
   // Loop all submissions for user that has canceled their participation. For easy editing and grouping for admins.
   foreach ($cancelUser['submissions'] as $sub => $submissionData) {
-      $sid = $submissionData['sid'];
-      $nid = $submissionData['nid'];
-      $action = $submissionData['action'];
-      // Build markup
-      print '<div class="submission-result"><div class="submission-action">' . 
-            t('@action', array('@action' => ucfirst($action))) . 
-            ':</div><div class="submission-tools"> ' . 
-            l(t('Delete'), 'node/' . $nid . '/submission/' . $sid . '/delete', array('query' => drupal_get_destination())) . 
-            ' | ' . 
-            l(t('View'), 'node/' . $nid . '/submission/' . $sid) . '</div></div>'
-            ;
+    $sid = $submissionData['sid'];
+    $nid = $submissionData['nid'];
+    $action = $submissionData['action'];
+    // Build markup
+    print '<div class="submission-result"><div class="submission-action">' . 
+          t('@action', array('@action' => ucfirst($action))) . 
+          ':</div><div class="submission-tools"> ' . 
+          l(t('Delete'), 'node/' . $nid . '/submission/' . $sid . '/delete', array('query' => drupal_get_destination())) . 
+          ' | ' . 
+          l(t('View'), 'node/' . $nid . '/submission/' . $sid) . '</div></div>'
+          ;
   }
   print '</div></div>';
 }
