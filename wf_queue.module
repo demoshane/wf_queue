@@ -83,7 +83,7 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
     $actions->addExpression('COUNT(nid)', 'count');
     $actions->groupBy('data.data');
     $result = $actions->execute();
-    
+
     // Setup vars
     $queue = 0;
     $cancel = 0;
@@ -132,6 +132,7 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
     {
       unset($form['submitted']['event_action']['#options']['queue']);
     }
+
     // END DATE FUNCTIONALITY
     // Let's check if ending date has passed and disable submission
     if (!user_access('view expired events')) {
