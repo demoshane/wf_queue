@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * wf_queue.features.field.inc
+ * webform_event.features.field.inc
  */
 
 /**
  * Implements hook_field_default_fields().
  */
-function wf_queue_field_default_fields() {
+function webform_event_field_default_fields() {
   $fields = array();
 
   // Exported field: 'node-event-field_wf_qeueue_event_image'.
@@ -50,7 +50,7 @@ function wf_queue_field_default_fields() {
           'module' => 'image',
           'settings' => array(
             'image_link' => '',
-            'image_style' => 'wf_queue_event',
+            'image_style' => 'webform_event_event',
           ),
           'type' => 'image',
           'weight' => '0',
@@ -60,7 +60,7 @@ function wf_queue_field_default_fields() {
           'module' => 'image',
           'settings' => array(
             'image_link' => '',
-            'image_style' => 'wf_queue_event',
+            'image_style' => 'webform_event_event',
           ),
           'type' => 'image',
           'weight' => '0',
@@ -92,7 +92,7 @@ function wf_queue_field_default_fields() {
         'active' => 1,
         'module' => 'image',
         'settings' => array(
-          'preview_image_style' => 'wf_queue_event',
+          'preview_image_style' => 'webform_event_event',
           'progress_indicator' => 'throbber',
         ),
         'type' => 'image_image',
@@ -101,14 +101,14 @@ function wf_queue_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-event-field_wf_queue_description'.
-  $fields['node-event-field_wf_queue_description'] = array(
+  // Exported field: 'node-event-field_webform_event_description'.
+  $fields['node-event-field_webform_event_description'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_wf_queue_description',
+      'field_name' => 'field_webform_event_description',
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -160,7 +160,7 @@ function wf_queue_field_default_fields() {
       ),
       'entity_type' => 'node',
       'fences_wrapper' => 'div',
-      'field_name' => 'field_wf_queue_description',
+      'field_name' => 'field_webform_event_description',
       'label' => 'Description',
       'required' => 0,
       'settings' => array(
@@ -181,14 +181,14 @@ function wf_queue_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-event-field_wf_queue_end_date'.
-  $fields['node-event-field_wf_queue_end_date'] = array(
+  // Exported field: 'node-event-field_webform_event_end_date'.
+  $fields['node-event-field_webform_event_end_date'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_wf_queue_end_date',
+      'field_name' => 'field_webform_event_end_date',
       'foreign keys' => array(),
       'indexes' => array(),
       'locked' => '0',
@@ -251,7 +251,7 @@ function wf_queue_field_default_fields() {
       ),
       'entity_type' => 'node',
       'fences_wrapper' => 'div',
-      'field_name' => 'field_wf_queue_end_date',
+      'field_name' => 'field_webform_event_end_date',
       'label' => 'Due date',
       'required' => 0,
       'settings' => array(
@@ -278,14 +278,14 @@ function wf_queue_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-event-field_wf_queue_participants'.
-  $fields['node-event-field_wf_queue_participants'] = array(
+  // Exported field: 'node-event-field_webform_event_participants'.
+  $fields['node-event-field_webform_event_participants'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_wf_queue_participants',
+      'field_name' => 'field_webform_event_participants',
       'foreign keys' => array(),
       'indexes' => array(),
       'locked' => '0',
@@ -333,7 +333,7 @@ function wf_queue_field_default_fields() {
       ),
       'entity_type' => 'node',
       'fences_wrapper' => 'p',
-      'field_name' => 'field_wf_queue_participants',
+      'field_name' => 'field_webform_event_participants',
       'label' => 'Participants',
       'required' => 0,
       'settings' => array(

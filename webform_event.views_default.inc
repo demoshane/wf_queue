@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * wf_queue.views_default.inc
+ * webform_event.views_default.inc
  */
 
 /**
  * Implements hook_views_default_views().
  */
-function wf_queue_views_default_views() {
+function webform_event_views_default_views() {
   $export = array();
 
   $view = new view();
@@ -36,12 +36,12 @@ function wf_queue_views_default_views() {
   $handler->display->display_options['style_options']['columns'] = array(
     'nid' => 'nid',
     'title' => 'title',
-    'field_wf_queue_description' => 'field_wf_queue_description',
-    'field_wf_queue_end_date' => 'field_wf_queue_end_date',
-    'field_wf_queue_participants' => 'field_wf_queue_participants',
+    'field_webform_event_description' => 'field_webform_event_description',
+    'field_webform_event_end_date' => 'field_webform_event_end_date',
+    'field_webform_event_participants' => 'field_webform_event_participants',
     'view_node' => 'view_node',
   );
-  $handler->display->display_options['style_options']['default'] = 'field_wf_queue_end_date';
+  $handler->display->display_options['style_options']['default'] = 'field_webform_event_end_date';
   $handler->display->display_options['style_options']['info'] = array(
     'nid' => array(
       'sortable' => 0,
@@ -57,21 +57,21 @@ function wf_queue_views_default_views() {
       'separator' => '',
       'empty_column' => 0,
     ),
-    'field_wf_queue_description' => array(
+    'field_webform_event_description' => array(
       'sortable' => 0,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
     ),
-    'field_wf_queue_end_date' => array(
+    'field_webform_event_end_date' => array(
       'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
     ),
-    'field_wf_queue_participants' => array(
+    'field_webform_event_participants' => array(
       'sortable' => 0,
       'default_sort_order' => 'asc',
       'align' => '',
@@ -111,45 +111,45 @@ function wf_queue_views_default_views() {
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   /* Field: Content: Description */
-  $handler->display->display_options['fields']['field_wf_queue_description']['id'] = 'field_wf_queue_description';
-  $handler->display->display_options['fields']['field_wf_queue_description']['table'] = 'field_data_field_wf_queue_description';
-  $handler->display->display_options['fields']['field_wf_queue_description']['field'] = 'field_wf_queue_description';
-  $handler->display->display_options['fields']['field_wf_queue_description']['label'] = 'Short description';
-  $handler->display->display_options['fields']['field_wf_queue_description']['element_type'] = '0';
-  $handler->display->display_options['fields']['field_wf_queue_description']['element_wrapper_type'] = '0';
-  $handler->display->display_options['fields']['field_wf_queue_description']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_wf_queue_description']['type'] = 'text_plain';
-  $handler->display->display_options['fields']['field_wf_queue_description']['field_api_classes'] = TRUE;
+  $handler->display->display_options['fields']['field_webform_event_description']['id'] = 'field_webform_event_description';
+  $handler->display->display_options['fields']['field_webform_event_description']['table'] = 'field_data_field_webform_event_description';
+  $handler->display->display_options['fields']['field_webform_event_description']['field'] = 'field_webform_event_description';
+  $handler->display->display_options['fields']['field_webform_event_description']['label'] = 'Short description';
+  $handler->display->display_options['fields']['field_webform_event_description']['element_type'] = '0';
+  $handler->display->display_options['fields']['field_webform_event_description']['element_wrapper_type'] = '0';
+  $handler->display->display_options['fields']['field_webform_event_description']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_webform_event_description']['type'] = 'text_plain';
+  $handler->display->display_options['fields']['field_webform_event_description']['field_api_classes'] = TRUE;
   /* Field: Content: Due date */
-  $handler->display->display_options['fields']['field_wf_queue_end_date']['id'] = 'field_wf_queue_end_date';
-  $handler->display->display_options['fields']['field_wf_queue_end_date']['table'] = 'field_data_field_wf_queue_end_date';
-  $handler->display->display_options['fields']['field_wf_queue_end_date']['field'] = 'field_wf_queue_end_date';
-  $handler->display->display_options['fields']['field_wf_queue_end_date']['label'] = 'Signup ends';
-  $handler->display->display_options['fields']['field_wf_queue_end_date']['element_type'] = '0';
-  $handler->display->display_options['fields']['field_wf_queue_end_date']['element_wrapper_type'] = '0';
-  $handler->display->display_options['fields']['field_wf_queue_end_date']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_wf_queue_end_date']['settings'] = array(
+  $handler->display->display_options['fields']['field_webform_event_end_date']['id'] = 'field_webform_event_end_date';
+  $handler->display->display_options['fields']['field_webform_event_end_date']['table'] = 'field_data_field_webform_event_end_date';
+  $handler->display->display_options['fields']['field_webform_event_end_date']['field'] = 'field_webform_event_end_date';
+  $handler->display->display_options['fields']['field_webform_event_end_date']['label'] = 'Signup ends';
+  $handler->display->display_options['fields']['field_webform_event_end_date']['element_type'] = '0';
+  $handler->display->display_options['fields']['field_webform_event_end_date']['element_wrapper_type'] = '0';
+  $handler->display->display_options['fields']['field_webform_event_end_date']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_webform_event_end_date']['settings'] = array(
     'format_type' => 'short',
     'fromto' => 'both',
     'multiple_number' => '',
     'multiple_from' => '',
     'multiple_to' => '',
   );
-  $handler->display->display_options['fields']['field_wf_queue_end_date']['field_api_classes'] = TRUE;
+  $handler->display->display_options['fields']['field_webform_event_end_date']['field_api_classes'] = TRUE;
   /* Field: Content: Participants */
-  $handler->display->display_options['fields']['field_wf_queue_participants']['id'] = 'field_wf_queue_participants';
-  $handler->display->display_options['fields']['field_wf_queue_participants']['table'] = 'field_data_field_wf_queue_participants';
-  $handler->display->display_options['fields']['field_wf_queue_participants']['field'] = 'field_wf_queue_participants';
-  $handler->display->display_options['fields']['field_wf_queue_participants']['label'] = 'Max. participants';
-  $handler->display->display_options['fields']['field_wf_queue_participants']['element_type'] = '0';
-  $handler->display->display_options['fields']['field_wf_queue_participants']['element_wrapper_type'] = '0';
-  $handler->display->display_options['fields']['field_wf_queue_participants']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_wf_queue_participants']['type'] = 'number_unformatted';
-  $handler->display->display_options['fields']['field_wf_queue_participants']['settings'] = array(
+  $handler->display->display_options['fields']['field_webform_event_participants']['id'] = 'field_webform_event_participants';
+  $handler->display->display_options['fields']['field_webform_event_participants']['table'] = 'field_data_field_webform_event_participants';
+  $handler->display->display_options['fields']['field_webform_event_participants']['field'] = 'field_webform_event_participants';
+  $handler->display->display_options['fields']['field_webform_event_participants']['label'] = 'Max. participants';
+  $handler->display->display_options['fields']['field_webform_event_participants']['element_type'] = '0';
+  $handler->display->display_options['fields']['field_webform_event_participants']['element_wrapper_type'] = '0';
+  $handler->display->display_options['fields']['field_webform_event_participants']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_webform_event_participants']['type'] = 'number_unformatted';
+  $handler->display->display_options['fields']['field_webform_event_participants']['settings'] = array(
     'thousand_separator' => '',
     'prefix_suffix' => 0,
   );
-  $handler->display->display_options['fields']['field_wf_queue_participants']['field_api_classes'] = TRUE;
+  $handler->display->display_options['fields']['field_webform_event_participants']['field_api_classes'] = TRUE;
   /* Field: Content: Link */
   $handler->display->display_options['fields']['view_node']['id'] = 'view_node';
   $handler->display->display_options['fields']['view_node']['table'] = 'views_entity_node';
@@ -186,18 +186,18 @@ function wf_queue_views_default_views() {
   $handler->display->display_options['filters']['status']['value'] = 1;
   $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Filter criterion: Content: Due date (field_wf_queue_end_date) */
-  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['id'] = 'field_wf_queue_end_date_value';
-  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['table'] = 'field_data_field_wf_queue_end_date';
-  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['field'] = 'field_wf_queue_end_date_value';
-  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['operator'] = '>=';
-  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['group'] = 1;
-  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['expose']['operator_id'] = 'field_wf_queue_end_date_value_op';
-  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['expose']['label'] = 'Due date (field_wf_queue_end_date)';
-  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['expose']['operator'] = 'field_wf_queue_end_date_value_op';
-  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['expose']['identifier'] = 'field_wf_queue_end_date_value';
-  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['default_date'] = 'now -2 day';
-  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['year_range'] = '-0:+3';
+  /* Filter criterion: Content: Due date (field_webform_event_end_date) */
+  $handler->display->display_options['filters']['field_webform_event_end_date_value']['id'] = 'field_webform_event_end_date_value';
+  $handler->display->display_options['filters']['field_webform_event_end_date_value']['table'] = 'field_data_field_webform_event_end_date';
+  $handler->display->display_options['filters']['field_webform_event_end_date_value']['field'] = 'field_webform_event_end_date_value';
+  $handler->display->display_options['filters']['field_webform_event_end_date_value']['operator'] = '>=';
+  $handler->display->display_options['filters']['field_webform_event_end_date_value']['group'] = 1;
+  $handler->display->display_options['filters']['field_webform_event_end_date_value']['expose']['operator_id'] = 'field_webform_event_end_date_value_op';
+  $handler->display->display_options['filters']['field_webform_event_end_date_value']['expose']['label'] = 'Due date (field_webform_event_end_date)';
+  $handler->display->display_options['filters']['field_webform_event_end_date_value']['expose']['operator'] = 'field_webform_event_end_date_value_op';
+  $handler->display->display_options['filters']['field_webform_event_end_date_value']['expose']['identifier'] = 'field_webform_event_end_date_value';
+  $handler->display->display_options['filters']['field_webform_event_end_date_value']['default_date'] = 'now -2 day';
+  $handler->display->display_options['filters']['field_webform_event_end_date_value']['year_range'] = '-0:+3';
   /* Filter criterion: Content: Title */
   $handler->display->display_options['filters']['title']['id'] = 'title';
   $handler->display->display_options['filters']['title']['table'] = 'node';
@@ -249,7 +249,7 @@ function wf_queue_views_default_views() {
   $handler->display->display_options['fields']['field_wf_qeueue_event_image']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_wf_qeueue_event_image']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_wf_qeueue_event_image']['settings'] = array(
-    'image_style' => 'wf_queue_event',
+    'image_style' => 'webform_event_event',
     'image_link' => 'content',
   );
   $handler->display->display_options['fields']['field_wf_qeueue_event_image']['field_api_classes'] = TRUE;
@@ -271,23 +271,23 @@ function wf_queue_views_default_views() {
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['element_wrapper_class'] = 'view-event-title';
   /* Field: Content: Description */
-  $handler->display->display_options['fields']['field_wf_queue_description']['id'] = 'field_wf_queue_description';
-  $handler->display->display_options['fields']['field_wf_queue_description']['table'] = 'field_data_field_wf_queue_description';
-  $handler->display->display_options['fields']['field_wf_queue_description']['field'] = 'field_wf_queue_description';
-  $handler->display->display_options['fields']['field_wf_queue_description']['label'] = '';
-  $handler->display->display_options['fields']['field_wf_queue_description']['alter']['trim_whitespace'] = TRUE;
-  $handler->display->display_options['fields']['field_wf_queue_description']['alter']['max_length'] = '800';
-  $handler->display->display_options['fields']['field_wf_queue_description']['alter']['ellipsis'] = FALSE;
-  $handler->display->display_options['fields']['field_wf_queue_description']['element_type'] = '0';
-  $handler->display->display_options['fields']['field_wf_queue_description']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_wf_queue_description']['element_wrapper_type'] = '0';
-  $handler->display->display_options['fields']['field_wf_queue_description']['element_wrapper_class'] = 'view-event-description';
-  $handler->display->display_options['fields']['field_wf_queue_description']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_wf_queue_description']['type'] = 'text_trimmed';
-  $handler->display->display_options['fields']['field_wf_queue_description']['settings'] = array(
+  $handler->display->display_options['fields']['field_webform_event_description']['id'] = 'field_webform_event_description';
+  $handler->display->display_options['fields']['field_webform_event_description']['table'] = 'field_data_field_webform_event_description';
+  $handler->display->display_options['fields']['field_webform_event_description']['field'] = 'field_webform_event_description';
+  $handler->display->display_options['fields']['field_webform_event_description']['label'] = '';
+  $handler->display->display_options['fields']['field_webform_event_description']['alter']['trim_whitespace'] = TRUE;
+  $handler->display->display_options['fields']['field_webform_event_description']['alter']['max_length'] = '800';
+  $handler->display->display_options['fields']['field_webform_event_description']['alter']['ellipsis'] = FALSE;
+  $handler->display->display_options['fields']['field_webform_event_description']['element_type'] = '0';
+  $handler->display->display_options['fields']['field_webform_event_description']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_webform_event_description']['element_wrapper_type'] = '0';
+  $handler->display->display_options['fields']['field_webform_event_description']['element_wrapper_class'] = 'view-event-description';
+  $handler->display->display_options['fields']['field_webform_event_description']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_webform_event_description']['type'] = 'text_trimmed';
+  $handler->display->display_options['fields']['field_webform_event_description']['settings'] = array(
     'trim_length' => '800',
   );
-  $handler->display->display_options['fields']['field_wf_queue_description']['field_api_classes'] = TRUE;
+  $handler->display->display_options['fields']['field_webform_event_description']['field_api_classes'] = TRUE;
   /* Field: Content: Link */
   $handler->display->display_options['fields']['view_node']['id'] = 'view_node';
   $handler->display->display_options['fields']['view_node']['table'] = 'views_entity_node';
@@ -297,37 +297,37 @@ function wf_queue_views_default_views() {
   $handler->display->display_options['fields']['view_node']['element_wrapper_class'] = 'view-event-signup';
   $handler->display->display_options['fields']['view_node']['text'] = 'Signup';
   /* Field: Content: Due date */
-  $handler->display->display_options['fields']['field_wf_queue_end_date']['id'] = 'field_wf_queue_end_date';
-  $handler->display->display_options['fields']['field_wf_queue_end_date']['table'] = 'field_data_field_wf_queue_end_date';
-  $handler->display->display_options['fields']['field_wf_queue_end_date']['field'] = 'field_wf_queue_end_date';
-  $handler->display->display_options['fields']['field_wf_queue_end_date']['label'] = 'Sign up before';
-  $handler->display->display_options['fields']['field_wf_queue_end_date']['element_type'] = '0';
-  $handler->display->display_options['fields']['field_wf_queue_end_date']['element_wrapper_type'] = '0';
-  $handler->display->display_options['fields']['field_wf_queue_end_date']['element_wrapper_class'] = 'view-event-due-date';
-  $handler->display->display_options['fields']['field_wf_queue_end_date']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_wf_queue_end_date']['settings'] = array(
+  $handler->display->display_options['fields']['field_webform_event_end_date']['id'] = 'field_webform_event_end_date';
+  $handler->display->display_options['fields']['field_webform_event_end_date']['table'] = 'field_data_field_webform_event_end_date';
+  $handler->display->display_options['fields']['field_webform_event_end_date']['field'] = 'field_webform_event_end_date';
+  $handler->display->display_options['fields']['field_webform_event_end_date']['label'] = 'Sign up before';
+  $handler->display->display_options['fields']['field_webform_event_end_date']['element_type'] = '0';
+  $handler->display->display_options['fields']['field_webform_event_end_date']['element_wrapper_type'] = '0';
+  $handler->display->display_options['fields']['field_webform_event_end_date']['element_wrapper_class'] = 'view-event-due-date';
+  $handler->display->display_options['fields']['field_webform_event_end_date']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_webform_event_end_date']['settings'] = array(
     'format_type' => 'short',
     'fromto' => 'both',
     'multiple_number' => '',
     'multiple_from' => '',
     'multiple_to' => '',
   );
-  $handler->display->display_options['fields']['field_wf_queue_end_date']['field_api_classes'] = TRUE;
+  $handler->display->display_options['fields']['field_webform_event_end_date']['field_api_classes'] = TRUE;
   /* Field: Content: Participants */
-  $handler->display->display_options['fields']['field_wf_queue_participants']['id'] = 'field_wf_queue_participants';
-  $handler->display->display_options['fields']['field_wf_queue_participants']['table'] = 'field_data_field_wf_queue_participants';
-  $handler->display->display_options['fields']['field_wf_queue_participants']['field'] = 'field_wf_queue_participants';
-  $handler->display->display_options['fields']['field_wf_queue_participants']['label'] = 'Maximum participants for the event';
-  $handler->display->display_options['fields']['field_wf_queue_participants']['element_type'] = '0';
-  $handler->display->display_options['fields']['field_wf_queue_participants']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_wf_queue_participants']['element_wrapper_type'] = '0';
-  $handler->display->display_options['fields']['field_wf_queue_participants']['element_wrapper_class'] = 'view-event-participants';
-  $handler->display->display_options['fields']['field_wf_queue_participants']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_wf_queue_participants']['settings'] = array(
+  $handler->display->display_options['fields']['field_webform_event_participants']['id'] = 'field_webform_event_participants';
+  $handler->display->display_options['fields']['field_webform_event_participants']['table'] = 'field_data_field_webform_event_participants';
+  $handler->display->display_options['fields']['field_webform_event_participants']['field'] = 'field_webform_event_participants';
+  $handler->display->display_options['fields']['field_webform_event_participants']['label'] = 'Maximum participants for the event';
+  $handler->display->display_options['fields']['field_webform_event_participants']['element_type'] = '0';
+  $handler->display->display_options['fields']['field_webform_event_participants']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_webform_event_participants']['element_wrapper_type'] = '0';
+  $handler->display->display_options['fields']['field_webform_event_participants']['element_wrapper_class'] = 'view-event-participants';
+  $handler->display->display_options['fields']['field_webform_event_participants']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_webform_event_participants']['settings'] = array(
     'thousand_separator' => '',
     'prefix_suffix' => 0,
   );
-  $handler->display->display_options['fields']['field_wf_queue_participants']['field_api_classes'] = TRUE;
+  $handler->display->display_options['fields']['field_webform_event_participants']['field_api_classes'] = TRUE;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
@@ -346,18 +346,18 @@ function wf_queue_views_default_views() {
   $handler->display->display_options['filters']['status']['value'] = 1;
   $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Filter criterion: Content: Due date (field_wf_queue_end_date) */
-  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['id'] = 'field_wf_queue_end_date_value';
-  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['table'] = 'field_data_field_wf_queue_end_date';
-  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['field'] = 'field_wf_queue_end_date_value';
-  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['operator'] = '>=';
-  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['group'] = 1;
-  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['expose']['operator_id'] = 'field_wf_queue_end_date_value_op';
-  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['expose']['label'] = 'Due date (field_wf_queue_end_date)';
-  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['expose']['operator'] = 'field_wf_queue_end_date_value_op';
-  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['expose']['identifier'] = 'field_wf_queue_end_date_value';
-  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['default_date'] = 'now -2 day';
-  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['year_range'] = '-0:+3';
+  /* Filter criterion: Content: Due date (field_webform_event_end_date) */
+  $handler->display->display_options['filters']['field_webform_event_end_date_value']['id'] = 'field_webform_event_end_date_value';
+  $handler->display->display_options['filters']['field_webform_event_end_date_value']['table'] = 'field_data_field_webform_event_end_date';
+  $handler->display->display_options['filters']['field_webform_event_end_date_value']['field'] = 'field_webform_event_end_date_value';
+  $handler->display->display_options['filters']['field_webform_event_end_date_value']['operator'] = '>=';
+  $handler->display->display_options['filters']['field_webform_event_end_date_value']['group'] = 1;
+  $handler->display->display_options['filters']['field_webform_event_end_date_value']['expose']['operator_id'] = 'field_webform_event_end_date_value_op';
+  $handler->display->display_options['filters']['field_webform_event_end_date_value']['expose']['label'] = 'Due date (field_webform_event_end_date)';
+  $handler->display->display_options['filters']['field_webform_event_end_date_value']['expose']['operator'] = 'field_webform_event_end_date_value_op';
+  $handler->display->display_options['filters']['field_webform_event_end_date_value']['expose']['identifier'] = 'field_webform_event_end_date_value';
+  $handler->display->display_options['filters']['field_webform_event_end_date_value']['default_date'] = 'now -2 day';
+  $handler->display->display_options['filters']['field_webform_event_end_date_value']['year_range'] = '-0:+3';
   /* Filter criterion: Content: Title */
   $handler->display->display_options['filters']['title']['id'] = 'title';
   $handler->display->display_options['filters']['title']['table'] = 'node';
@@ -479,18 +479,18 @@ function wf_queue_views_default_views() {
   $handler->display->display_options['filters']['status']['value'] = 1;
   $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Filter criterion: Content: Due date (field_wf_queue_end_date) */
-  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['id'] = 'field_wf_queue_end_date_value';
-  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['table'] = 'field_data_field_wf_queue_end_date';
-  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['field'] = 'field_wf_queue_end_date_value';
-  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['operator'] = '>=';
-  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['group'] = 1;
-  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['expose']['operator_id'] = 'field_wf_queue_end_date_value_op';
-  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['expose']['label'] = 'Due date (field_wf_queue_end_date)';
-  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['expose']['operator'] = 'field_wf_queue_end_date_value_op';
-  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['expose']['identifier'] = 'field_wf_queue_end_date_value';
-  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['default_date'] = 'now -2 day';
-  $handler->display->display_options['filters']['field_wf_queue_end_date_value']['year_range'] = '-0:+3';
+  /* Filter criterion: Content: Due date (field_webform_event_end_date) */
+  $handler->display->display_options['filters']['field_webform_event_end_date_value']['id'] = 'field_webform_event_end_date_value';
+  $handler->display->display_options['filters']['field_webform_event_end_date_value']['table'] = 'field_data_field_webform_event_end_date';
+  $handler->display->display_options['filters']['field_webform_event_end_date_value']['field'] = 'field_webform_event_end_date_value';
+  $handler->display->display_options['filters']['field_webform_event_end_date_value']['operator'] = '>=';
+  $handler->display->display_options['filters']['field_webform_event_end_date_value']['group'] = 1;
+  $handler->display->display_options['filters']['field_webform_event_end_date_value']['expose']['operator_id'] = 'field_webform_event_end_date_value_op';
+  $handler->display->display_options['filters']['field_webform_event_end_date_value']['expose']['label'] = 'Due date (field_webform_event_end_date)';
+  $handler->display->display_options['filters']['field_webform_event_end_date_value']['expose']['operator'] = 'field_webform_event_end_date_value_op';
+  $handler->display->display_options['filters']['field_webform_event_end_date_value']['expose']['identifier'] = 'field_webform_event_end_date_value';
+  $handler->display->display_options['filters']['field_webform_event_end_date_value']['default_date'] = 'now -2 day';
+  $handler->display->display_options['filters']['field_webform_event_end_date_value']['year_range'] = '-0:+3';
   /* Filter criterion: Content: Title */
   $handler->display->display_options['filters']['title']['id'] = 'title';
   $handler->display->display_options['filters']['title']['table'] = 'node';
@@ -532,7 +532,7 @@ function wf_queue_views_default_views() {
     t('Signup'),
     t('Name'),
     t('All'),
-    t('Due date (field_wf_queue_end_date)'),
+    t('Due date (field_webform_event_end_date)'),
     t('Title'),
     t('Event listing'),
     t('Administrative tools'),

@@ -4,12 +4,12 @@
  * Code for the Webform Queue feature.
  */
 
-include_once 'wf_queue.features.inc';
+include_once 'webform_event.features.inc';
 
-function wf_queue_theme() {
+function webform_event_theme() {
   return array(
-    'wf_queue' => array(
-      'template' => 'wf_queue',
+    'webform_event' => array(
+      'template' => 'webform_event',
       'variables' => array('headers' => NULL, 
       'submissions' => NULL, 
       'queue' => NULL, 
@@ -21,7 +21,7 @@ function wf_queue_theme() {
 /**
   * Implements hook_permission().
   */
-function wf_queue_permission() {
+function webform_event_permission() {
   return array(
     'view expired events' => array(
       'title' => t(
@@ -45,7 +45,7 @@ function wf_queue_permission() {
 /**
   * Implements hook_form_alter().
   */
-function wf_queue_form_alter(&$form, &$form_state, $form_id) {
+function webform_event_form_alter(&$form, &$form_state, $form_id) {
   // CHECKS AND MISCALLENEOUS
   // This is to get rid of notices from undefined indexes
   if (!isset($form['#node'])) {
@@ -70,7 +70,7 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
     // BASE INFORMATION SETUP
     // Get Participant limit
     $participants = "";
-    $participantField = field_view_field('node', $node, 'field_wf_queue_participants');
+    $participantField = field_view_field('node', $node, 'field_webform_event_participants');
     if (isset($participantField['#items'][0]['value'])) {
       $participants = $participantField['#items'][0]['value'];
     }
@@ -137,7 +137,7 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
     // Let's check if ending date has passed and disable submission
     if (!user_access('view expired events')) {
       // Convert ending date to epoch time stamp for comparison. Field must have no timezone for this to work
-      $endDateField = field_view_field('node', $node, 'field_wf_queue_end_date');
+      $endDateField = field_view_field('node', $node, 'field_webform_event_end_date');
       $endDate = "";
       if (isset($endDateField['#items'][0]['value'])) {
         $endDate = strtotime($endDateField['#items'][0]['value']);
@@ -183,11 +183,11 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
 
 	  // Move information to markup
     if (isset($participantField['#items'][0]['value'])) {
-      $form['#node']->content['field_wf_queue_participants'][0]['#markup'] = $currentParticipants;
+      $form['#node']->content['field_webform_event_participants'][0]['#markup'] = $currentParticipants;
     }
 	  // VALIDATION
 	  // Custom validation to prevent overflowing
-	  array_unshift($form['#validate'], 'wf_queue_validate');
+	  array_unshift($form['#validate'], 'webform_event_validate');
   }
   // FORM PROTECTION
   // Let's give a event_action -compononent a slight protection.
@@ -201,12 +201,12 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
 /**
   * Implements hook_validate().
   */
-function wf_queue_validate($form) {
+function webform_event_validate($form) {
   // Declare nid and participant limit.
   $node = $node = $form['#node'];
   // Get Participant limit
   $participants = "";
-  $participantField = field_view_field('node', $node, 'field_wf_queue_participants');
+  $participantField = field_view_field('node', $node, 'field_webform_event_participants');
 
   if (!empty($node->nid)) {
     $nid = $node->nid;
@@ -231,7 +231,7 @@ function wf_queue_validate($form) {
 /**
   * Implements hook_node_insert().
   */
-function wf_queue_node_insert($node) {
+function webform_event_node_insert($node) {
   // Here we will force signup action field (and possibly other fields) that is default for all forms when they're created. When user adds component to the webform, select element for action to take is generated.
   if($node->type == "event") {
     // Include webform component functions. If we don't do this, we can't use webform functions needed to create element.
@@ -274,7 +274,7 @@ function wf_queue_node_insert($node) {
 /**
   * Implements hook_webform_submission_delete().
   */
-function wf_queue_webform_submission_delete($node, $submission) {
+function webform_event_webform_submission_delete($node, $submission) {
   // TODO: DO CONTENT TYPE CHECK!
   // Get sid of the first in the queue
   // If there is someone in the queue and there is free space, let event moderator know about it.
@@ -297,7 +297,7 @@ function wf_queue_webform_submission_delete($node, $submission) {
 /**
  * Implements hook_menu().
  */
-function wf_queue_menu() {
+function webform_event_menu() {
   $items = array();
   // Mass emailing page
   $items['node/%node/manage-event'] = array(
@@ -305,12 +305,12 @@ function wf_queue_menu() {
     // Function to build form
     'page callback' => 'drupal_get_form',
     // Attachs arguments to drupal_get_form (node/id/something == 1/2/3 as arguments)
-    'page arguments' => array('wf_queue_form', 1),
+    'page arguments' => array('webform_event_form', 1),
     //'access callback' => 'webform_mass_email_form_access',
     //'access arguments' => array(1),
     'access arguments' => array('administer events'),
     // File that contains requested page
-    'file' => 'includes/wf_queue.pages.inc',
+    'file' => 'includes/webform_event.pages.inc',
     'weight' => 20,
     'type' => MENU_LOCAL_TASK,
   );
@@ -321,7 +321,7 @@ function wf_queue_menu() {
 /**
  * Implements hook_webform_component_insert().
  */
-function wf_queue_webform_component_insert($component) {
+function webform_event_webform_component_insert($component) {
   // Get all
   $submissions = db_select('webform_submitted_data', 'data')
                ->fields('data', array('sid'))

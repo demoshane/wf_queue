@@ -3,13 +3,13 @@
  * @file
  *   Event management page.
  *
- * @ingroup wf_queue
+ * @ingroup webform_event
  */
 
 /**
  * Implements hook_form();
  */
-function wf_queue_form($form, $form_state, $node) {
+function webform_event_form($form, $form_state, $node) {
   $headers = array();
   $subs = array();
 
@@ -117,14 +117,14 @@ function wf_queue_form($form, $form_state, $node) {
     }
     if ($state == "cancel") {
       $userCancel = user_load($uid);
-      $cancels[$userCancel->name]['submissions'] = _wf_queue_cancel_submissions($nid, $uid);
+      $cancels[$userCancel->name]['submissions'] = _webform_event_cancel_submissions($nid, $uid);
       $cancels[$userCancel->name]['uid'] = $uid;
     }
   }
 
   // Finish it!
   $form = array(
-    '#suffix' => theme('wf_queue', array('headers' => $headers, 'submissions' => $subs, 'queue' => $queuelink, 'cancel' => $cancels)),
+    '#suffix' => theme('webform_event', array('headers' => $headers, 'submissions' => $subs, 'queue' => $queuelink, 'cancel' => $cancels)),
   );
 
   // Return built form
@@ -132,7 +132,7 @@ function wf_queue_form($form, $form_state, $node) {
 }
 
 // This custom function gets submissions for user that has cancellations
-function _wf_queue_cancel_submissions($nid, $uid) {
+function _webform_event_cancel_submissions($nid, $uid) {
   // Get other submissions for canceled user
   $return = array();
   $otherSubmissions = db_select('webform_submissions', 'subs')

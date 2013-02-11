@@ -1,25 +1,25 @@
 <?php
 /**
  * @file
- * wf_queue.features.inc
+ * webform_event.features.inc
  */
 
 /**
  * Implements hook_views_api().
  */
-function wf_queue_views_api() {
+function webform_event_views_api() {
   return array("api" => "3.0");
 }
 
 /**
  * Implements hook_image_default_styles().
  */
-function wf_queue_image_default_styles() {
+function webform_event_image_default_styles() {
   $styles = array();
 
-  // Exported image style: wf_queue_event.
-  $styles['wf_queue_event'] = array(
-    'name' => 'wf_queue_event',
+  // Exported image style: webform_event_event.
+  $styles['webform_event_event'] = array(
+    'name' => 'webform_event_event',
     'effects' => array(
       1 => array(
         'label' => 'Scale',
@@ -46,7 +46,7 @@ function wf_queue_image_default_styles() {
 /**
  * Implements hook_node_info().
  */
-function wf_queue_node_info() {
+function webform_event_node_info() {
   $items = array(
     'event' => array(
       'name' => t('Event'),
