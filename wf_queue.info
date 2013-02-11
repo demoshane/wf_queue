@@ -1,5 +1,5 @@
 name = Webform events
-description = This feature provides an event type with signup limits, due date and automatic form handling.
+description = Provides event node type with event participation administrative tools.
 core = 7.x
 package = Webform
 php = 5.2.4
