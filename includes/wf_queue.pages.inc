@@ -25,15 +25,11 @@ function wf_queue_form($form, $form_state, $node) {
   $test_headers['username'] = 'User name';
 
   // Get component names
-  $componentNames = db_select('webform_component', 'comp')
-                  ->fields('comp', array('name'))
-                  ->condition('nid', $nid, '=')
-                  ->execute()
-                  ->fetchAll();
+  $componentNames = webform_component_list($node);
 
   // Build components as header
   foreach($componentNames as $header) {
-    $test_headers[] = $header->name;
+    $test_headers[] = $header;
   }
   $headers = array_merge($test_headers, array(
     'edit' => 'Edit',
