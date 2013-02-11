@@ -10,7 +10,10 @@ function wf_queue_theme() {
   return array(
     'wf_queue' => array(
       'template' => 'wf_queue',
-      'variables' => array('headers' => NULL, 'submissions' => NULL, 'queue' => NULL, 'cancel' => NULL),
+      'variables' => array('headers' => NULL, 
+      'submissions' => NULL, 
+      'queue' => NULL, 
+      'cancel' => NULL),
     ),
   );
 }
@@ -21,17 +24,23 @@ function wf_queue_theme() {
 function wf_queue_permission() {
   return array(
     'view expired events' => array(
-      'title' => t('View events that have have passed due date.'),
-      'description' => t('Allows to see expired events. Set this for event moderators.'),
+      'title' => t(
+        'View events that have have passed due date.'
+      ),
+      'description' => t(
+        'Allows to see expired events. Set this for event moderators.'
+      ),
     ),
     'administer events' => array(
-      'title' => t('Access administration tools'),
-      'description' => t('Grants access to administration page for events'),
+      'title' => t(
+        'Access administration tools'
+      ),
+      'description' => t(
+        'Grants access to administration page for events'
+      ),
     ),
   );
 }
-
-// TODO: DO COMPONENT CHECKING ISSETS, EVENT_ACTION OPTIONS CHECK / BETTER PROTECTION / FALLBACK
 
 /**
   * Implements hook_form_alter().
@@ -59,7 +68,8 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
   // Assign check for node view
   $check = "node/" . $nid;
 
-  // Check we have node of type event and we are on node view. We don't want form handling to trigger on edit or add pages.
+  // Check we have node of type event and we are on node view. 
+  // We don't want form handling to trigger on edit or add pages.
   if ($nodetype == "event" && $path == $check) {
     // BASE INFORMATION SETUP
     // Get Participant limit
@@ -103,7 +113,8 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
       // Append this to normal page title
       $fullTitle = $form['#node']->title . t(" - Participation limit reached");
 
-      // Participation limit is full, modify page title and unset the form until there is more space. User can free up space to course by deleting submissions if he wants to.
+      // Participation limit is full, modify page title and unset the form until there 
+      // is more space. User can free up space to course by deleting submissions if he wants to.
       drupal_set_title($fullTitle);
 
       // Notify user that submission limit has been reached. Clear possible previous messages.
@@ -113,7 +124,9 @@ function wf_queue_form_alter(&$form, &$form_state, $form_id) {
       }
       drupal_set_message(t('This event is currently full. However you can queue for the event.'), 'warning');
     }
-	  // Don't allow signing up if there is people in queue even if there is space on course, in other words - maintainer has not updated someone from queue to course or is currently doing so. This protects course from signups while maintainer is working on with signups.
+	  // Don't allow signing up if there is people in queue even if there is space on course, 
+	  // in other words - maintainer has not updated someone from queue to course or is currently doing so. 
+	  // This protects course from signups while maintainer is working on with signups.
  	  elseif ($dbresult < $participants && isset($participants) && $participants > 0 && $queue > 0) {
       unset($form['submitted']['event_action']['#options']['signup']);
 	  }
